@@ -9,3 +9,15 @@ A project that shows the threads life cycle in Spring Batch Job
 * password: password
 
 > Console:   http://127.0.0.1:8080/h2-console
+
+
+### Processor Reques Example:
+
+> POST: http://localhost:8080/api/v1/step/threads/monitor/processor
+```json
+{
+    "name": "John Connor",
+    "bearerToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "urlToCall": "http://some.url.com/some/path"
+}
+```

@@ -37,4 +37,9 @@ spring:
     hiddenmethod:
       filter:
         enabled: true  
+
+app:
+  h2:
+    scheduler:
+      clean: 60000
         
