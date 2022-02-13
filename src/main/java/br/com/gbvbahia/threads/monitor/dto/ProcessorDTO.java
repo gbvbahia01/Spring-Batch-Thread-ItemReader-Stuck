@@ -21,11 +21,13 @@ public class ProcessorDTO extends BaseDTO {
   @NotNull(message = "name required")
   private String name;
   
-  @Size(min= 0, max= 255)
-  @NotNull(message = "bearer token required")
-  private String bearerToken;
+  @Size(min= 0, max= 1000)
+  @NotNull(message = "data to process required")
+  private String dataToProcess;
   
   @Size(min= 0, max= 2048)
   @NotNull(message = "url to call required")
   private String urlToCall;
+  
+  private ProcessStatus processStatus;
 }

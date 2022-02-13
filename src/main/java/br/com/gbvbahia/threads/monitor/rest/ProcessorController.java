@@ -31,7 +31,7 @@ public class ProcessorController {
     try {
       
       return ResponseEntity.status(HttpStatus.CREATED)
-             .body(processorService.save(processor));
+             .body(processorService.startNewProcess(processor));
       
     } catch (Exception e) {
       

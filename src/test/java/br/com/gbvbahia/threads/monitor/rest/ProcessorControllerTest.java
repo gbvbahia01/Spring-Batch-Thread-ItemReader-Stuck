@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.jayway.jsonpath.JsonPath;
+import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import br.com.gbvbahia.threads.monitor.repository.ProcessorRepository;
 import br.com.gbvbahia.threads.monitor.until.Constants;
@@ -50,7 +51,7 @@ class ProcessorControllerTest {
   @Test
   void testAdd() throws Exception {
     ProcessorDTO dto = ProcessorDTO.builder()
-        .bearerToken(faker.crypto().sha512())
+        .dataToProcess(faker.crypto().sha512())
         .name(faker.company().name())
         .urlToCall(faker.internet().url())
         .build();
@@ -61,13 +62,14 @@ class ProcessorControllerTest {
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .content(toJson(dto)))
         .andDo(print())
-        .andExpect(jsonPath("$.*", hasSize(6)))
+        .andExpect(jsonPath("$.*", hasSize(7)))
         .andExpect(jsonPath("$.id", greaterThan(0)))
         .andExpect(jsonPath("$.createdAt").exists())
         .andExpect(jsonPath("$.updatedAt").exists())
         .andExpect(jsonPath("$.name").value(dto.getName()))
-        .andExpect(jsonPath("$.bearerToken").value(dto.getBearerToken()))
+        .andExpect(jsonPath("$.dataToProcess").value(dto.getDataToProcess()))
         .andExpect(jsonPath("$.urlToCall").value(dto.getUrlToCall()))
+        .andExpect(jsonPath("$.processStatus").value(ProcessStatus.WAITING.name()))
         .andExpect(status().isCreated()).andReturn().getResponse();
     
     Integer id = JsonPath.parse(response.getContentAsString()).read("$.id");
