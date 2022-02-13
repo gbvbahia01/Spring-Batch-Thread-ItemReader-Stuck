@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.h2;
+package br.com.gbvbahia.threads.monitor.persistence.h2;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

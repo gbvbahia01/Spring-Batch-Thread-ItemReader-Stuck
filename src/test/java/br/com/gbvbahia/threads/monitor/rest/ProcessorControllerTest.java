@@ -19,12 +19,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.javafaker.Faker;
 import com.jayway.jsonpath.JsonPath;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
-import br.com.gbvbahia.threads.monitor.repository.ProcessorRepository;
+import br.com.gbvbahia.threads.monitor.persistence.repository.ProcessorRepository;
 import br.com.gbvbahia.threads.monitor.until.Constants;
+import br.com.gbvbahia.threads.monitor.util.TestDTOFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,8 +32,6 @@ import br.com.gbvbahia.threads.monitor.until.Constants;
 @AutoConfigureMockMvc
 class ProcessorControllerTest {
 
-  private Faker faker = Faker.instance();
-  
   @Autowired
   private MockMvc mockMvc;
 
@@ -50,11 +48,7 @@ class ProcessorControllerTest {
 
   @Test
   void testAdd() throws Exception {
-    ProcessorDTO dto = ProcessorDTO.builder()
-        .dataToProcess(faker.crypto().sha512())
-        .name(faker.company().name())
-        .urlToCall(faker.internet().url())
-        .build();
+    ProcessorDTO dto = TestDTOFactory.processorDTO();
     
     String path = String.format("%s%s", Constants.Rest.PATH_V1, Constants.Rest.PROCESSOR);
     

@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.h2;
+package br.com.gbvbahia.threads.monitor.persistence.h2;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ public class H2CleanerScheduler {
   
   @Scheduled(fixedRateString = "${app.h2.scheduler.clean}")
   public void callH2Cleaner() {
-    log.debug("Init Job memory cleaner");
+    log.trace("Init Job memory cleaner");
     h2CleanerRepository.cleanMemoryCompletedJobs();
-    log.debug("End Job memory cleaner");
+    log.trace("End Job memory cleaner");
   }
 }
