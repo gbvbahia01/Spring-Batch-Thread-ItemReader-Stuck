@@ -21,4 +21,8 @@ spring:
 app:
   h2:
     scheduler:
-      clean: 60000        
+      clean: 60000
+  batch:
+    threads:
+      amount: 10 
+      factor: 10
