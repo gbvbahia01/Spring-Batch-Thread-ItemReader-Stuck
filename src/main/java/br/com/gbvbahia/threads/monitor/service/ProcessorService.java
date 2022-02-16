@@ -37,7 +37,7 @@ public class ProcessorService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Optional<Processor> findNextToBeProcessed() {
 
-    Optional<Processor> nextOpt = processorRepository.findByProcessStatus(ProcessStatus.WAITING);
+    Optional<Processor> nextOpt = processorRepository.findFirstByProcessStatusOrderById(ProcessStatus.WAITING);
 
     if (nextOpt.isEmpty()) {
       return nextOpt;

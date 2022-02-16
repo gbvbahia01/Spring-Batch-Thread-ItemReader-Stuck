@@ -12,5 +12,5 @@ import br.com.gbvbahia.threads.monitor.model.Processor;
 public interface ProcessorRepository extends JpaRepository<Processor, Long> {
   
   @Lock(LockModeType.PESSIMISTIC_WRITE)
-  Optional<Processor> findByProcessStatus(ProcessStatus processStatus);
+  Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
 }

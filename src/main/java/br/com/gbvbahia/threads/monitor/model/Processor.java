@@ -2,6 +2,8 @@ package br.com.gbvbahia.threads.monitor.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +41,7 @@ public class Processor extends BaseModel {
   
   @NotNull(message = "process status required")
   @Column(name = "process_status")
+  @Enumerated(EnumType.STRING)
   private ProcessStatus processStatus;
   
   @Size(min= 0, max= 255)
