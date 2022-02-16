@@ -42,4 +42,13 @@ app:
   h2:
     scheduler:
       clean: 60000
+  batch:
+    threads:
+      amount: 10 
+      factor: 10
+      chunks: 5
+  scheduler:
+    batch:
+      rate: 5000
+      delay: 60000
         

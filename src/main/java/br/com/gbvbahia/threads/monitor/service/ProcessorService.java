@@ -22,37 +22,39 @@ public class ProcessorService {
 
   @Transactional(propagation = Propagation.REQUIRED)
   public ProcessorDTO startNewProcess(ProcessorDTO dto) {
-    
-    Processor processor = Processor.builder()
-        .dataToProcess(dto.getDataToProcess())
-        .name(dto.getName())
-        .urlToCall(dto.getUrlToCall())
-        .processStatus(ProcessStatus.WAITING)
-        .build();
-    
+
+    Processor processor =
+        Processor.builder().dataToProcess(dto.getDataToProcess()).name(dto.getName())
+            .urlToCall(dto.getUrlToCall()).processStatus(ProcessStatus.WAITING).build();
+
     Processor saved = processorRepository.save(processor);
     log.debug("Processor saved:{}", saved);
-    
+
     return modelMapper.map(saved, ProcessorDTO.class);
 
   }
-  
+
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Optional<Processor> findNextToBeProcessed() {
-    
+
     Optional<Processor> nextOpt = processorRepository.findByProcessStatus(ProcessStatus.WAITING);
-    
+
     if (nextOpt.isEmpty()) {
       return nextOpt;
     }
-    
+
     Processor toProcess = nextOpt.get();
-    
+
     toProcess.setProcessStatus(ProcessStatus.PROCESSING);
     processorRepository.save(toProcess);
-    
+
     return Optional.of(toProcess);
-    
+
+  }
+
+  @Transactional(propagation = Propagation.REQUIRED)
+  public void save(Processor processor) {
+    processorRepository.save(processor);
   }
 
 }

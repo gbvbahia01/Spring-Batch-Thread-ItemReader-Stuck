@@ -7,5 +7,6 @@ CREATE TABLE processor  (
 	name VARCHAR(255) NOT NULL,
 	data_to_process VARCHAR(1000) NOT NULL,
 	url_to_call VARCHAR(2048) NOT NULL,
-	process_status VARCHAR(30) NOT NULL
+	process_status VARCHAR(30) NOT NULL,
+	process_result VARCHAR(255) NULL
 ) ;

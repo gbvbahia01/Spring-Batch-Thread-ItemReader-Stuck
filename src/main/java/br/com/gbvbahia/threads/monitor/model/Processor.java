@@ -40,4 +40,8 @@ public class Processor extends BaseModel {
   @NotNull(message = "process status required")
   @Column(name = "process_status")
   private ProcessStatus processStatus;
+  
+  @Size(min= 0, max= 255)
+  @Column(name = "process_result")
+  private String processResult;
 }

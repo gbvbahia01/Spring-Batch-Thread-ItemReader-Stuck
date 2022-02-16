@@ -1,22 +1,30 @@
 package br.com.gbvbahia.threads.monitor.batch;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
 import org.springframework.batch.item.ItemProcessor;
-import com.github.javafaker.Faker;
+import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.model.Processor;
+import br.com.gbvbahia.threads.monitor.service.ProcessorApiCallerService;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
-public class FakeItemProcessor implements ItemProcessor<Optional<Processor>, Processor> {
+@RequiredArgsConstructor
+@Builder
+public class FakeItemProcessor implements ItemProcessor<Optional<Processor>, Optional<Processor>> {
 
-  private Faker faker = Faker.instance();
-
+  private final ProcessorApiCallerService processorApiCallerService;
+  
   @Override
-  public Processor process(Optional<Processor> item) throws Exception {
+  public Optional<Processor> process(Optional<Processor> item) throws Exception {
     
-    LockSupport.parkUntil(TimeUnit.SECONDS.toMillis(faker.number().numberBetween(150, 500)));
+    if (item.isPresent()) {
+      Processor processor = item.get();
+      String processResult = processorApiCallerService.requestProcessResult(processor.getUrlToCall());
+      processor.setProcessResult(processResult);
+      processor.setProcessStatus(ProcessStatus.FINISHED);
+    }
     
-    return item.get();
+    return item;
   }
 
 }
