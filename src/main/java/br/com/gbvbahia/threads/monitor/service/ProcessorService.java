@@ -20,10 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProcessorService {
 
-  @Value("app.batch.idle")
+  @Value("${app.batch.idle}")
   private Integer IDLE_PROCESS;
   
-  @Value("app.batch.old")
+  @Value("${app.batch.old}")
   private Integer OLD_PROCESS;
 
   private final ModelMapper modelMapper;
