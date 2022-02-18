@@ -27,7 +27,17 @@ app:
       amount: 10 
       factor: 10
       chunks: 5
+    idle: 60000
+    old: 180000
   scheduler:
     batch:
       rate: 5000
       delay: 60000
+
+fake:
+  scheduler:
+    processor:
+      rate: 50
+      delay: 1000
+      url: "http://localhost:8080"
+      endpoint: "/api/v1/step/threads/monitor/processor"

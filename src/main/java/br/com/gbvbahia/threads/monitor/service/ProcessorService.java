@@ -1,7 +1,10 @@
 package br.com.gbvbahia.threads.monitor.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ProcessorService {
+
+  @Value("app.batch.idle")
+  private Integer IDLE_PROCESS;
+  
+  @Value("app.batch.old")
+  private Integer OLD_PROCESS;
 
   private final ModelMapper modelMapper;
   private final ProcessorRepository processorRepository;
@@ -37,7 +46,8 @@ public class ProcessorService {
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Optional<Processor> findNextToBeProcessed() {
 
-    Optional<Processor> nextOpt = processorRepository.findFirstByProcessStatusOrderById(ProcessStatus.WAITING);
+    Optional<Processor> nextOpt =
+        processorRepository.findFirstByProcessStatusOrderById(ProcessStatus.WAITING);
 
     if (nextOpt.isEmpty()) {
       return nextOpt;
@@ -55,6 +65,24 @@ public class ProcessorService {
   @Transactional(propagation = Propagation.REQUIRED)
   public void save(Processor processor) {
     processorRepository.save(processor);
+  }
+
+  public void releaseIdleProcess() {
+    LocalDateTime idleTime = LocalDateTime.now().minus(IDLE_PROCESS, ChronoUnit.MILLIS);
+    processorRepository.findByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime)
+    .forEach(process -> {
+      process.setProcessStatus(ProcessStatus.WAITING);
+      processorRepository.save(process);
+    });
+  }
+  
+  public void deleteOldProcess() {
+    LocalDateTime idleTime = LocalDateTime.now().minus(OLD_PROCESS, ChronoUnit.MILLIS);
+    processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime);
+  }
+  
+  public Long countByProcessStatus(ProcessStatus processStatus) {
+    return processorRepository.countByProcessStatus(processStatus);
   }
 
 }

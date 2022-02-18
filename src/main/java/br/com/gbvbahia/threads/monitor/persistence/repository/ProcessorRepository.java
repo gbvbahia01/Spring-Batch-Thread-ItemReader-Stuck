@@ -1,5 +1,7 @@
 package br.com.gbvbahia.threads.monitor.persistence.repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import javax.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +15,10 @@ public interface ProcessorRepository extends JpaRepository<Processor, Long> {
   
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
+  
+  void deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus processStatus, LocalDateTime updatedAt);
+  
+  List<Processor> findByProcessStatusAndUpdatedAtBefore(ProcessStatus processStatus, LocalDateTime updatedAt);
+  
+  Long countByProcessStatus(ProcessStatus processStatus);
 }

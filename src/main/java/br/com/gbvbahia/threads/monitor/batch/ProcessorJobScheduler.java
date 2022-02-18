@@ -23,8 +23,8 @@ public class ProcessorJobScheduler {
 
   @Scheduled(fixedRateString = "${app.scheduler.batch.rate}",
              initialDelayString = "${app.scheduler.batch.delay}")
-  public void processPlaybookCollector() throws Exception {
-    log.debug("Init Job Processor");
+  public void processStarter() throws Exception {
+    log.trace("Init Job Processor");
     
     JobParameters jobParameters =
         new JobParametersBuilder()
@@ -34,6 +34,6 @@ public class ProcessorJobScheduler {
     
     JobExecution jobResult = jobLauncher.run(jobExecuteProcessor, jobParameters);
     
-    log.debug("End Job Processor with status: {}", jobResult.getStatus());
+    log.trace("End Job Processor with status: {}", jobResult.getStatus());
   }
 }
