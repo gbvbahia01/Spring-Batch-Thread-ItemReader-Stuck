@@ -30,6 +30,14 @@
 </div>
 
 <ui th:fragment="menu" class="nav">
-
 </ui>
+
+<div th:fragment="alertPage" class="alertPage">
+	<th:block th:if="${alerMsg != null}">
+	<div class="alert alert-primary" role="alert" style="width: 100%">
+ 			 <span th:text="${alerMsg}" th:remove="tag">title</span>
+	</div>
+	</th:block>
+</div>
+
 </html>

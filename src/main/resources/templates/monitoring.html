@@ -36,21 +36,27 @@
 
 <!-- Container -->
 <div class="container-sm">
-	<div class="row">
-		<div class="col-12 col-lg-12">
-		   <div class="table-responsive" style="margin-top: 10px; padding-bottom: 20px; margin-top: 10px;">
+	<div th:replace="fragments/menu :: alertPage"></div>
+
+	<div class="row g-2">
+		<div class="col-6">
+			<div class="p-3 border bg-light">
 				<div th:each="env : ${environments}">
-                	<button th:onclick="'javascript:changeEnvironment('+ ${env.ordinal()} +')'" class="btn btn-light">
-                		<th:block th:if="${environment == env}">
-            				<i th:id="${env} + '_ICO_ENV'"  class="fa fa-toggle-on" aria-hidden="true"></i>
-            			</th:block>
-            			<th:block th:if="${environment != env}">
-            				<i th:id="${env} + '_ICO_ENV'" class="fa fa-toggle-off" aria-hidden="true"></i>
-            			</th:block>
-                	</button> 
-                	<label th:text="${env}">env</label>
-            	</div>
+	            	<button th:onclick="'javascript:changeEnvironment('+ ${env.ordinal()} +')'" class="btn btn-light">
+	            		<th:block th:if="${environment == env}">
+	        				<i th:id="${env} + '_ICO_ENV'"  class="fa fa-toggle-on" aria-hidden="true"></i>
+	        			</th:block>
+	        			<th:block th:if="${environment != env}">
+	        				<i th:id="${env} + '_ICO_ENV'" class="fa fa-toggle-off" aria-hidden="true"></i>
+	        			</th:block>
+	            	</button> 
+	            	<label th:text="${env}">env</label>
+	        	</div>
 			</div>
+		</div>
+		
+		<div class="col-6">
+		
 		</div>
 	</div>
 </div>
@@ -59,6 +65,7 @@
 	<block th:replace="fragments/script :: load"></block>
     <script type="application/javascript">
     	connectBatchEnv();
+    	connectTaskExecutor();
     </script>
 
 </body>

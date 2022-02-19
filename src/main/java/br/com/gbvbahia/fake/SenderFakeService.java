@@ -2,7 +2,6 @@ package br.com.gbvbahia.fake;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SenderFakeService {
 
   private final AmountComponent amountController;
-  private final ApplicationEventPublisher applicationEventPublisher;
 
   @Value("${fake.scheduler.processor.url}")
   private String URL_DEV_LOCAL;
@@ -48,8 +46,6 @@ public class SenderFakeService {
 
       log.trace("POST: {}", response.getBody());
 
-      // TODO
-      applicationEventPublisher.publishEvent(response);
     }
   }
 }
