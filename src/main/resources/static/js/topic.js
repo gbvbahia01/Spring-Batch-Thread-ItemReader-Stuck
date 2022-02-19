@@ -25,8 +25,8 @@ function connectBatchEnv() {
 
 		stompClient.subscribe(pathTopic, function(traffic) {
 			//console.log(pathTopic + traffic);
-			let json = JSON.parse(traffic.body);
-			updateBatchEnv(json);
+			let env = JSON.parse(traffic.body);
+			updateBatchEnv(env);
 		});
 	});
 }

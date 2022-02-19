@@ -43,11 +43,11 @@ public class FakeController {
   }
   
   @PostMapping(value = Mapping.Fake.CHANGE_ENVIRONMENT)
-  public ResponseEntity<Void> achangeStatusAjax(@PathVariable("env") @NotNull Integer envOrnial) {
+  public ResponseEntity<Void> achangeStatusAjax(@PathVariable("env") @NotNull Integer envOrdinal) {
     
-    Environment environmentTo = Environment.values()[envOrnial];
+    Environment environmentTo = Environment.values()[envOrdinal];
     
-    log.info("Environment change from: {} to {}", EnvironmentCurrentController.INSTANCE.getCurrent(), environmentTo);
+    log.trace("Environment change from: {} to {}", EnvironmentCurrentController.INSTANCE.getCurrent(), environmentTo);
     
     EnvironmentCurrentController.INSTANCE.setCurrent(environmentTo);
     
