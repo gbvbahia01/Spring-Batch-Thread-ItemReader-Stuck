@@ -32,12 +32,12 @@ app:
   scheduler:
     batch:
       rate: 5000
-      delay: 60000
+      delay: 1000
 
 fake:
   scheduler:
     processor:
-      rate: 50
-      delay: 1000
+      rate: 500
+      delay: 500
       url: "http://localhost:8080"
       endpoint: "/api/v1/step/threads/monitor/processor"

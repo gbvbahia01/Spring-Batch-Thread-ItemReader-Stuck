@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import br.com.gbvbahia.threads.monitor.batch.listener.StartEndJobNotificationListener;
 import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.service.ProcessorApiCallerService;
@@ -28,6 +29,8 @@ public class CfgProcessorJob {
   private final JobBuilderFactory jobsFactory;
   private final StepBuilderFactory stepsFactory;
 
+  private final StartEndJobNotificationListener startEndJobNotificationListener;
+  
   private final ProcessorService processorService;
   private final ProcessorApiCallerService processorApiCallerService;
 
@@ -42,6 +45,7 @@ public class CfgProcessorJob {
         .start(stepReleaseIdleProcess)
         .next(stepDeleteOldProcess)
         .next(stepExecuteProcessor)
+        .listener(startEndJobNotificationListener)
         .build();
   }
   

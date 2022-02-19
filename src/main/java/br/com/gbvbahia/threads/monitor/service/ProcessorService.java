@@ -37,7 +37,7 @@ public class ProcessorService {
             .urlToCall(dto.getUrlToCall()).processStatus(ProcessStatus.WAITING).build();
 
     Processor saved = processorRepository.save(processor);
-    log.debug("Processor saved:{}", saved);
+    log.trace("Processor saved:{}", saved);
 
     return modelMapper.map(saved, ProcessorDTO.class);
 

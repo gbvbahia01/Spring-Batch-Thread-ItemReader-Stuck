@@ -19,14 +19,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SenderFakeService {
 
-  private ApplicationEventPublisher applicationEventPublisher;
-  
+  private final AmountController amountController;
+  private final ApplicationEventPublisher applicationEventPublisher;
+
   @Value("${fake.scheduler.processor.url}")
   private String URL_DEV_LOCAL;
-  
+
   @Value("${fake.scheduler.processor.endpoint}")
   private String END_POINT;
-  
+
   private final RestTemplate restTemplate;
   private final Faker faker = Faker.instance();
 
@@ -35,16 +36,20 @@ public class SenderFakeService {
   public void requestSender() throws Exception {
 
     String url = String.format("%s%s", URL_DEV_LOCAL, END_POINT);
-    
-    Map<String, Object> request = Map.of("name", faker.name().fullName(),
-        "urlToCall", faker.internet().url(), 
-        "dataToProcess", faker.crypto().sha512());
-    
-    ResponseEntity<ProcessorDTO> response = restTemplate.postForEntity(url, request, ProcessorDTO.class);
-    
-    log.trace("POST: {}", response.getBody());
-    
-    //TODO
-    applicationEventPublisher.publishEvent(response);
+
+    final int toSend = amountController.amountToSend();
+
+    for (int idx = 0; idx < toSend; idx++) {
+      Map<String, Object> request = Map.of("name", faker.name().fullName(), "urlToCall",
+          faker.internet().url(), "dataToProcess", faker.crypto().sha512());
+
+      ResponseEntity<ProcessorDTO> response =
+          restTemplate.postForEntity(url, request, ProcessorDTO.class);
+
+      log.trace("POST: {}", response.getBody());
+
+      // TODO
+      applicationEventPublisher.publishEvent(response);
+    }
   }
 }

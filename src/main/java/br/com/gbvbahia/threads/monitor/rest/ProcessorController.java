@@ -26,7 +26,7 @@ public class ProcessorController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ProcessorDTO> add(@Valid @RequestBody ProcessorDTO processor) {
 
-    log.debug("New Processor requested:{}", processor);
+    log.trace("New Processor requested:{}", processor);
 
     try {
       
