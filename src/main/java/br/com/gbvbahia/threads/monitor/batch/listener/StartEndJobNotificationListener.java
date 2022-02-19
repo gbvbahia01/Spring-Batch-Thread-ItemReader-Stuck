@@ -14,13 +14,13 @@ public class StartEndJobNotificationListener implements JobExecutionListener {
 
   @Override
   public void beforeJob(JobExecution jobExecution) {
-    log.info("Job:{}-{} START", jobExecution.getJobId(),
+    log.trace("Job:{}-{} START", jobExecution.getJobId(),
         jobExecution.getJobInstance().getJobName());
   }
 
   @Override
   public void afterJob(JobExecution jobExecution) {
-    log.info("Job:{}-{} END", jobExecution.getJobId(),
+    log.trace("Job:{}-{} END", jobExecution.getJobId(),
         jobExecution.getJobInstance().getJobName());
   }
 }

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SenderFakeService {
 
-  private final AmountController amountController;
+  private final AmountComponent amountController;
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Value("${fake.scheduler.processor.url}")

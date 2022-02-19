@@ -9,11 +9,12 @@ import br.com.gbvbahia.fake.environment.qa.QAAmountEnvironment;
 import br.com.gbvbahia.fake.environment.test.TestAmountEnvironment;
 
 @Component
-public class AmountController {
+public class AmountComponent {
 
   private final List<AmountEnvironmentContract> amountEnvironmentContracts =
-      List.of(TestAmountEnvironment.builder().build(), QAAmountEnvironment.builder().build(),
-          ProdAmountEnvironment.builder().build());
+      List.of(TestAmountEnvironment.builder().build(),
+              QAAmountEnvironment.builder().build(),
+              ProdAmountEnvironment.builder().build());
 
   public Integer amountToSend() {
     

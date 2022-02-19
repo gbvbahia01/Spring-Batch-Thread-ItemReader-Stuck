@@ -34,7 +34,7 @@ public class ProcessorItemWriter implements ItemWriter<Optional<Processor>> {
         taskExecutor.getMaxPoolSize(),
         taskExecutor.getPoolSize(),
         taskExecutor.getActiveCount());
-    log.info(pool);
+    log.trace(pool);
   }
 
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="fragments/head :: header">
+</head>
+<body>
+<!-- Loading-->
+<section class="loading-overlay">
+    <div>
+        <h1 class="loader">Loading...</h1>
+    </div>
+</section>
+
+<!-- Top Menu -->
+<header>
+
+    <section class="bg-dark" id="menu-top">
+        <div class="container" th:replace="fragments/menu :: emptyspace"></div>
+    </section>
+
+    <section class="bg-light" id="menu-mid">
+        <div class="container" th:replace="fragments/menu :: logo-title('Spring Batch Monitoring')"></div>
+    </section>
+    
+    <section class="bg-dark" id="menu-bot">
+        <div class="container">
+            <ui th:replace="fragments/menu :: menu"></ui>
+        </div>
+    </section>
+</header>
+
+
+<!-- Container -->
+<div class="container-sm">
+	<div class="row">
+		<div th:replace="fragments/menu :: alertPage"></div>
+		
+		<div class="col-12 col-lg-12">
+		   <div class="table-responsive" style="margin-top: 10px; padding-bottom: 20px; margin-top: 10px;">
+				
+				<div th:each="env : ${environments}">
+                	<div class="custom-control custom-radio custom-control-inline">
+                    	<input type="radio" th:value="${env}" class="custom-control-input">
+                    	<label class="custom-control-label" th:text="${env}">env</label>
+                	</div>
+            	</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<!-- Script -->
+	<block th:replace="fragments/script :: load"></block>
+    <script type="application/javascript">
+    	connectBatchEnv();
+    </script>
+</body>
+</html>

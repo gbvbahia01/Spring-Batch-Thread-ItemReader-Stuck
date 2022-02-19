@@ -1,0 +1,209 @@
+/*
+Colors {
+    blue:               #64C6F2,
+    black:              #231E20,
+    black:              #1A171B,
+    beige:              #D7C797,
+    dark beige:         #845422,
+    dark orange:        #E86031,
+    dark red:           #BE0A26,
+    ace:                #FFFFFF,
+    gray:               #DDDDDD,
+    brown_light:        #C2986B,
+    dark_yellow:        #FDC700,
+    red_reg:            #E5352D,
+    orange_dark_lighr:  #EC7A4C,
+    yellow_reg:         #F1EA7D
+
+}
+ */
+/*================================
+	# Loading Screen
+================================*/
+
+.loading-overlay{
+    background:#FFF;
+    color:#424242;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    z-index:111111;
+}
+
+.loader {
+    margin: 20% auto;
+    font-size: 6px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 1.1em solid rgba(194, 193, 193, 0.5);
+    border-right: 1.1em solid rgba(199, 197, 197, 0.5);
+    border-bottom: 1.1em solid rgba(203, 203, 203, 0.5);
+    border-left: 1em solid #E86031;
+    -webkit-animation: load8 1.1s infinite linear;
+    animation: load8 1.1s infinite linear;
+}
+
+.casetext {
+  text-transform: capitalize;
+}
+
+
+.loader, .loader:after {
+    border-radius: 50%;
+    width: 10em;
+    height: 10em;
+}
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/*================================
+	# Font Size
+================================*/
+html {
+    font-size: 0.9rem;
+}
+
+/*================================
+	# Body
+================================*/
+body {
+    z-index: 2;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+
+/*================================
+	# Header
+================================*/
+
+header {
+    /*opacity: 0.90;*/
+    border-bottom: #e86031 3px solid;
+    z-index: 1;
+}
+
+/*================================
+	# Header Nav
+================================*/
+#menu-top {
+    border-bottom: 1px solid #f5f5f5;
+    padding: 6px 0px;
+}
+
+#menu-bot {
+    padding: 6px 0px;
+}
+
+.nav {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: 16px;
+	color: #4c4a37;
+}
+
+.nav-link {
+    color: #DDDDDD;
+    font-weight: 400;
+}
+.nav-link:hover {
+    color: #DDDDDD;
+    font-weight: 400;
+}
+
+.navbar-brand {
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+/*================================
+	# Section
+================================*/
+.section-title  {
+    margin: 20px 0px 15px 0px;
+}
+
+.section-title h3{
+    font-size: 18px;
+    line-height: 36px;
+    font-weight: 600;
+}
+
+.section-title h3 span {
+    padding-bottom: 11px;
+}
+
+/*================================
+	# Tables
+================================*/
+table {
+	border: 1px solid rgba(115, 115, 115, 0.40);
+	font-size: 13px;
+}
+
+table td {
+	height: 50px;
+	vertical-align: middle !important;
+}
+
+table td .list-group-item {
+	padding: .30rem 0.75rem !important;
+	background-color: transparent !important;
+}
+
+table td .list-group-flush>.list-group-item {
+border-width: 0 0 0px !important;	
+}
+
+.columnBts {
+	text-align: right;
+	 white-space: nowrap;
+}
+
+.editBtOnTables {
+	margin-right: 5px;
+}
+
+.deleteBts {
+	padding: .15rem .50rem !important;
+}
+
+
+
+/*================================
+	# Form
+================================*/
+.formstyle {
+	padding: 20px 0px 10px 0px; 
+}
+
+.errorText {
+	color: red !important;
+}
+
+/*================================
+	# Alerts
+================================*/
+.alertPage {
+	width: 100%;
+	min-height: 50px;
+	padding: 10px 0px 10px 0px
+}

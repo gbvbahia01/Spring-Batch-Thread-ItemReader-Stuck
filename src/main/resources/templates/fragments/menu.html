@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<!-- {-sm|-md|-lg|-xl} -->
+
+<div th:fragment="emptyspace" class="container">
+	<div class="row justify-content-start">
+		<div class="col-12"></div>
+	</div>
+</div>
+
+<div th:fragment="logo-title(title)" class="container-sm">
+	<div class="row align-items-center ">
+	
+		<div class="col-md-1 col-3">
+			<img th:src="@{/img/logo/laptop_zoom_48.png}" th:alt="'Spring Batch Monitoring'"
+				th:title="'Spring Batch Monitoring'"
+				class="img-fluid rounded-circle navbar-brand m-0 img-thumbnail"
+				width="64"
+				height="64" style="margin-top: 1px; margin-bottom: 1px;"/>
+		</div>
+		<div class="col-md-6 col-4 section-title" style="text-align: left;">
+			<h3 style="color: black;" th:text="${title}">Title</h3>
+		</div>
+		<div class="col-md-5 col-5 section-title" style="text-align: right;">
+			<h3 style="color: black;"></h3>
+		</div>
+		
+	</div>
+</div>
+
+<ui th:fragment="menu" class="nav">
+
+</ui>
+
+<div th:fragment="alertPage" class="alertPage">
+	<th:block th:if="${alerMsg != null}">
+	<div class="alert alert-primary" role="alert" style="width: 100%">
+ 			 <span th:text="${alerMsg}" th:remove="tag">title</span>
+	</div>
+	</th:block>
+</div>
+
+</html>
