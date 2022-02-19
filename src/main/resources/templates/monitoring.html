@@ -42,10 +42,10 @@
 				<div th:each="env : ${environments}">
                 	<button th:onclick="'javascript:changeEnvironment('+ ${env.ordinal()} +')'" class="btn btn-light">
                 		<th:block th:if="${environment == env}">
-            				<i th:id="${env} + '_ICO'"  class="fa fa-toggle-on" aria-hidden="true"></i>
+            				<i th:id="${env} + '_ICO_ENV'"  class="fa fa-toggle-on" aria-hidden="true"></i>
             			</th:block>
             			<th:block th:if="${environment != env}">
-            				<i th:id="${env} + '_ICO'" class="fa fa-toggle-off" aria-hidden="true"></i>
+            				<i th:id="${env} + '_ICO_ENV'" class="fa fa-toggle-off" aria-hidden="true"></i>
             			</th:block>
                 	</button> 
                 	<label th:text="${env}">env</label>

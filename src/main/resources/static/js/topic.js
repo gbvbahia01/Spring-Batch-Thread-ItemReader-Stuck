@@ -17,7 +17,7 @@ function getStompClient() {
 // ================
 function connectBatchEnv() {
 
-	var pathTopic = '/topic/batch';
+	var pathTopic = '/topic/environment';
 	stompClient = getStompClient();
 	stompClient.connect({}, function(frame) {
 		console.log('Connected: ' + frame);
@@ -36,10 +36,14 @@ function connectBatchEnv() {
 // # Update Page
 // ================
 
-function updateBatchEnv(json) {
-		//console.log('Json: ' + json);
-
-
+function updateBatchEnv(env) {
+	$.each($('i[id*="_ICO_ENV"]'), function( _, value ) {
+		if (env + '_ICO_ENV' === value.id ) {
+			$(jq(value.id)).prop('class', 'fa fa-toggle-on')
+		} else {
+			$(jq(value.id)).prop('class', 'fa fa-toggle-off')
+		}
+	});
 }
 
 
