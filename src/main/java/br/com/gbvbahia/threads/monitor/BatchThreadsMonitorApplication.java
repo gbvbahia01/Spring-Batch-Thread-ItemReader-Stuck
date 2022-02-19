@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
@@ -16,7 +15,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 @EnableAsync
 @EnableScheduling
 @EnableBatchProcessing
-@EnableWebSecurity
 @EnableWebSocketMessageBroker
 @EnableWebMvc
 @ComponentScan("br.com.gbvbahia")

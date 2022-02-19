@@ -2,8 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
+
 <head th:replace="fragments/head :: header">
 </head>
+
 <body>
 <!-- Loading-->
 <section class="loading-overlay">
@@ -28,22 +30,25 @@
             <ui th:replace="fragments/menu :: menu"></ui>
         </div>
     </section>
+
 </header>
 
 
 <!-- Container -->
 <div class="container-sm">
 	<div class="row">
-		<div th:replace="fragments/menu :: alertPage"></div>
-		
 		<div class="col-12 col-lg-12">
 		   <div class="table-responsive" style="margin-top: 10px; padding-bottom: 20px; margin-top: 10px;">
-				
 				<div th:each="env : ${environments}">
-                	<div class="custom-control custom-radio custom-control-inline">
-                    	<input type="radio" th:value="${env}" class="custom-control-input">
-                    	<label class="custom-control-label" th:text="${env}">env</label>
-                	</div>
+                	<button th:onclick="'javascript:changeEnvironment('+ ${env.ordinal()} +')'" class="btn btn-light">
+                		<th:block th:if="${environment == env}">
+            				<i th:id="${env} + '_ICO'"  class="fa fa-toggle-on" aria-hidden="true"></i>
+            			</th:block>
+            			<th:block th:if="${environment != env}">
+            				<i th:id="${env} + '_ICO'" class="fa fa-toggle-off" aria-hidden="true"></i>
+            			</th:block>
+                	</button> 
+                	<label th:text="${env}">env</label>
             	</div>
 			</div>
 		</div>
@@ -55,5 +60,6 @@
     <script type="application/javascript">
     	connectBatchEnv();
     </script>
+
 </body>
 </html>

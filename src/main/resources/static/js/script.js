@@ -42,10 +42,10 @@ function submitForm(idForm) {
 //==================================
 //	# SUBMIT
 //==================================
-function changeBatchs(id, status) {
+function changeEnvironment(env) {
 	
 	var pathUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + window.location.pathname.split('/')[1];
-	pathUrl = pathUrl + '/page/batch/status/' + status + '/id/' + id
+	pathUrl = pathUrl + '/page/environment/' + env
 	console.log(pathUrl);
 	    $.ajax({
 	        url : pathUrl,

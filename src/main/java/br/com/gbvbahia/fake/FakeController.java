@@ -1,4 +1,4 @@
-package br.com.gbvbahia.fake.environment.controller;
+package br.com.gbvbahia.fake;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -38,11 +38,11 @@ public class FakeController {
   }
   
   @PostMapping(value = Mapping.Fake.CHANGE_ENVIRONMENT)
-  public ResponseEntity<Void> achangeStatusAjax(@PathVariable("env") @NotNull Environment environment) {
+  public ResponseEntity<Void> achangeStatusAjax(@PathVariable("env") @NotNull Integer envOrnial) {
     
-    log.info("Environment change from: {} to {}", EnvironmentCurrentController.INSTANCE.getCurrent(), environment);
+    log.info("Environment change from: {} to {}", EnvironmentCurrentController.INSTANCE.getCurrent(), Environment.values()[envOrnial]);
     
-    EnvironmentCurrentController.INSTANCE.setCurrent(environment);
+    EnvironmentCurrentController.INSTANCE.setCurrent(Environment.values()[envOrnial]);
     
     return ResponseEntity.ok().build();
   }
