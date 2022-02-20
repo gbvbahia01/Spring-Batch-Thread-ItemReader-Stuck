@@ -99,7 +99,7 @@
 					<div class="row" style="height: 110px;">
 						<div class="col">
 							<div th:each="read : ${readmodes}">
-				            	<button th:onclick="'javascript:changeEnvironment('+ ${read.ordinal()} +')'" class="btn btn-light">
+				            	<button th:onclick="'javascript:changeReadMode('+ ${read.ordinal()} +')'" class="btn btn-light">
 				            		<th:block th:if="${readmode == read}">
 				        				<i th:id="${read} + '_ICO_READ'"  class="fa fa-toggle-on" aria-hidden="true"></i>
 				        			</th:block>
@@ -151,6 +151,7 @@
     	connectBatchEnv();
     	connectTaskExecutor();
     	connectJobStartEnd();
+    	connectReadMode();
     </script>
 
 </body>

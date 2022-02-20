@@ -44,9 +44,10 @@ public class BatchEventsListener {
     simpMessagingTemplate.convertAndSend("/topic/jobStartEnd",  event);
   }
   
+  @EventListener
   public void BatchReadModeChangedListener(BatchReadModeChangedEvent event) {
     if (event.isReadModeChanged()) {
-      simpMessagingTemplate.convertAndSend("/topic/taskExecutorInfo",  BatchModeController.INSTANCE.getBatchMode());
+      simpMessagingTemplate.convertAndSend("/topic/readMode",  BatchModeController.INSTANCE.getBatchMode());
     }
   }
 }

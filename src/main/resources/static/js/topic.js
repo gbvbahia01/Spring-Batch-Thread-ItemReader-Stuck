@@ -38,10 +38,7 @@ function connectTaskExecutor() {
 	var pathTopic = '/topic/taskExecutorInfo';
 	let stompClient = getStompClient();
 
-	stompClient.connect({}, function(frame) {
-		console.log('Connected: ' + frame);
-		console.log('Subscribe: ' + pathTopic);
-
+	stompClient.connect({}, function() {
 		stompClient.subscribe(pathTopic, function(traffic) {
 			//console.log(pathTopic + traffic);
 			let json = JSON.parse(traffic.body);
@@ -54,14 +51,24 @@ function connectJobStartEnd() {
 
 	var pathTopic = '/topic/jobStartEnd';
 	let stompClient = getStompClient();
-	stompClient.connect({}, function(frame) {
-		console.log('Connected: ' + frame);
-		console.log('Subscribe: ' + pathTopic);
-
+	stompClient.connect({}, function() {
 		stompClient.subscribe(pathTopic, function(traffic) {
 			//console.log(pathTopic + traffic);
 			let json = JSON.parse(traffic.body);
 			updateJobStartEnd(json);
+		});
+	});
+}
+
+function connectReadMode() {
+
+	var pathTopic = '/topic/readMode';
+	let stompClient = getStompClient();
+	stompClient.connect({}, function() {
+		stompClient.subscribe(pathTopic, function(traffic) {
+			//console.log(pathTopic + traffic);
+			let mode = JSON.parse(traffic.body);
+			updateJReadMode(mode);
 		});
 	});
 }
@@ -74,6 +81,17 @@ function updateBatchEnv(env) {
 	//console.log('Env: ' + env);
 	$.each($('i[id*="_ICO_ENV"]'), function( _, value ) {
 		if (env + '_ICO_ENV' === value.id ) {
+			$(jq(value.id)).prop('class', 'fa fa-toggle-on');
+		} else {
+			$(jq(value.id)).prop('class', 'fa fa-toggle-off');
+		}
+	});
+}
+
+function updateJReadMode(mode) {
+	//console.log('Env: ' + env);
+	$.each($('i[id*="_ICO_READ"]'), function( _, value ) {
+		if (mode + '_ICO_READ' === value.id ) {
 			$(jq(value.id)).prop('class', 'fa fa-toggle-on');
 		} else {
 			$(jq(value.id)).prop('class', 'fa fa-toggle-off');

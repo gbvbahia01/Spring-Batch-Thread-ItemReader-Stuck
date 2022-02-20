@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.gbvbahia.fake.environment.Environment;
 import br.com.gbvbahia.fake.environment.EnvironmentCurrentController;
@@ -48,7 +48,7 @@ public class RestController {
     return Pages.MONITORING.pageName;
   }
 
-  @PostMapping(value = Mapping.Fake.CHANGE_ENVIRONMENT)
+  @PutMapping(value = Mapping.Fake.CHANGE_ENVIRONMENT)
   public ResponseEntity<Void> changeEnvironment(@PathVariable("env") @NotNull Integer envOrdinal) {
 
     try {
@@ -65,7 +65,7 @@ public class RestController {
     }
   }
   
-  @PostMapping(value = Mapping.Fake.CHANGE_READ_MODE)
+  @PutMapping(value = Mapping.Fake.CHANGE_READ_MODE)
   public ResponseEntity<Void> changeReadMode(@PathVariable("mode") @NotNull Integer modeOrdinal) {
 
     try {

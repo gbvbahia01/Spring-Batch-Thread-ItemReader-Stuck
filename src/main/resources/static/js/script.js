@@ -7,40 +7,7 @@ $(window).on('load', function () {
 
 
 //==================================
-//	# DELETE
-//==================================
-function sendDelete(url) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", url, true);
-    xhttp.onload = function () {
-        //let responseURL = xhttp.responseURL;
-        //alert(responseURL);
-        //window.location.replace(responseURL);
-    };
-    xhttp.send();
-}
-
-//==================================
-//	# SUBMIT
-//==================================
-function submitForm(idForm) {
-		alert('aa')
-		$("#" + idForm).submit(function(event){
-	    event.preventDefault(); // Prevent default action
-	    var post_url = $(this).attr("action"); // Get the form action URL
-	    var request_method = $(this).attr("method"); // Get form GET/POST method
-	    var form_data = $(this).serialize(); // Encode form elements for submission
-	
-	    $.ajax({
-	        url : post_url,
-	        type: request_method,
-	        data : form_data
-	    });
-	});
-}
-
-//==================================
-//	# SUBMIT
+//	# Ajax
 //==================================
 function changeEnvironment(env) {
 	
@@ -49,7 +16,19 @@ function changeEnvironment(env) {
 	console.log(pathUrl);
 	    $.ajax({
 	        url : pathUrl,
-	        type: 'POST',
+	        type: 'PUT',
+	        data : ''
+	    }); 
+}
+
+function changeReadMode(mode) {
+	
+	var pathUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + window.location.pathname.split('/')[1];
+	pathUrl = pathUrl + '/page/read/' + mode
+	console.log(pathUrl);
+	    $.ajax({
+	        url : pathUrl,
+	        type: 'PUT',
 	        data : ''
 	    }); 
 }
