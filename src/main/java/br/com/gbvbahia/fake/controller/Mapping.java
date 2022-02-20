@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.controller;
+package br.com.gbvbahia.fake.controller;
 
 public interface Mapping {
 

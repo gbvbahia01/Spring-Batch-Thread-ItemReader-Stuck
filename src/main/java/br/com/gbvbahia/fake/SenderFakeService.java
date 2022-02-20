@@ -2,12 +2,14 @@ package br.com.gbvbahia.fake;
 
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.github.javafaker.Faker;
+import br.com.gbvbahia.fake.event.AmountSendingEvent;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SenderFakeService {
 
-  private final AmountComponent amountController;
-
+  private final AmountComponent amountComponent;
+  private final ApplicationEventPublisher applicationEventPublisher;
+  
   @Value("${fake.scheduler.processor.url}")
   private String URL_DEV_LOCAL;
 
@@ -35,8 +38,11 @@ public class SenderFakeService {
 
     String url = String.format("%s%s", URL_DEV_LOCAL, END_POINT);
 
-    final int toSend = amountController.amountToSend();
-
+    final int toSend = amountComponent.amountToSend();
+    
+    applicationEventPublisher.publishEvent(AmountSendingEvent.builder()
+        .amoundSending(toSend).build());
+    
     for (int idx = 0; idx < toSend; idx++) {
       Map<String, Object> request = Map.of("name", faker.name().fullName(), "urlToCall",
           faker.internet().url(), "dataToProcess", faker.crypto().sha512());

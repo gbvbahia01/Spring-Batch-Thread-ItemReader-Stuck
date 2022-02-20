@@ -1,6 +1,6 @@
-const COLOR_YELLOW = 'rgba(255, 165, 0, 0.5)'
-const COLOR_GREEN = 'rgba(60, 179, 113, 0.5)'
-const COLOR_BLUE = 'rgba(0, 0, 255, 0.5)'
+const COLOR_YELLOW = 'rgba(255, 165, 0, 0.5)';
+const COLOR_GREEN = 'rgba(60, 179, 113, 0.5)';
+const COLOR_BLUE = 'rgba(0, 0, 255, 0.5)';
 
 // ===================
 // # Websocket Connect
@@ -52,18 +52,28 @@ function connectTaskExecutor() {
 // ================
 
 function updateBatchEnv(env) {
-	console.log('Env: ' + env)
+	//console.log('Env: ' + env);
 	$.each($('i[id*="_ICO_ENV"]'), function( _, value ) {
 		if (env + '_ICO_ENV' === value.id ) {
-			$(jq(value.id)).prop('class', 'fa fa-toggle-on')
+			$(jq(value.id)).prop('class', 'fa fa-toggle-on');
 		} else {
-			$(jq(value.id)).prop('class', 'fa fa-toggle-off')
+			$(jq(value.id)).prop('class', 'fa fa-toggle-off');
 		}
 	});
 }
 //{"corePoolSize":10,"maxPoolSize":10,"poolSize":10,"activeCount":4}
 function updateTaskExecutor(json) {
-	console.log('Task Executor: ' + json.activeCount)
+	console.log('Task Executor activeCount: ' + json.activeCount);
+	console.log('Task Executor percent: ' + json.percent);
+	
+	$(jq('te_cpz')).text(json.corePoolSize);
+	$(jq('te_mpz')).text(json.maxPoolSize);
+	$(jq('te_pz')).text(json.poolSize);
+	$(jq('te_yml')).text(json.ymlAmountThreads);
+	$(jq('te_ac')).text(json.activeCount);
+	$(jq('pg_ac')).css('width', json.percent + '%');
+	$(jq('pg_ac')).html(json.percent + '%');
+	$(jq('pg_ac')).prop('class', 'progress-bar ' + json.color);
 }
 
 //https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-an-element-by-an-id-that-has-characters-used-in-css-notation/

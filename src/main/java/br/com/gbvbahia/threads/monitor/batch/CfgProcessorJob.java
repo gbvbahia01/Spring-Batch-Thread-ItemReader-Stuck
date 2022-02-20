@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import br.com.gbvbahia.fake.environment.Environment;
 import br.com.gbvbahia.threads.monitor.batch.listener.StartEndJobNotificationListener;
 import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
 import br.com.gbvbahia.threads.monitor.model.Processor;
@@ -85,6 +86,7 @@ public class CfgProcessorJob {
         .<Optional<Processor>, Optional<Processor>>chunk(chunks)
         .reader(processorItemReader(INTEGER_OVERRIDDEN_BY_EXPRESSION,
             INTEGER_OVERRIDDEN_BY_EXPRESSION,
+            STRING_OVERRIDDEN_BY_EXPRESSION,
             STRING_OVERRIDDEN_BY_EXPRESSION))
         .processor(fakeItemProcessor())
         .writer(processorItemWriter())
@@ -97,10 +99,12 @@ public class CfgProcessorJob {
   public ProcessorItemReader processorItemReader(
       @Value("${app.batch.threads.amount}") Integer amountThreads,
       @Value("${app.batch.threads.factor}") Integer threadFactor,
-      @Value("#{jobParameters['ITEM_READER_MODE']}") String itemReaderMode) {
+      @Value("#{jobParameters['ITEM_READER_MODE']}") String itemReaderMode,
+      @Value("#{jobParameters['ITEM_ENVIROMENT']}") String itemEnvironment) {
 
     return ProcessorItemReader.builder().amountThreads(amountThreads).threadFactor(threadFactor)
         .batchItemReaderMode(BatchItemReaderMode.valueOf(itemReaderMode))
+        .enviroment(Environment.valueOf(itemEnvironment))
         .processorService(processorService).build();
   }
 

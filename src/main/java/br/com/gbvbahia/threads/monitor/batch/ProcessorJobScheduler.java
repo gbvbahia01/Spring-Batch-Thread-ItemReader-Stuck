@@ -8,6 +8,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import br.com.gbvbahia.fake.environment.EnvironmentCurrentController;
 import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class ProcessorJobScheduler {
         new JobParametersBuilder()
             .addLong("JOB_TIMESTAMP", System.nanoTime())
             .addString("ITEM_READER_MODE", BatchModeController.INSTANCE.getBatchMode().name())
+            .addString("ITEM_ENVIROMENT", EnvironmentCurrentController.INSTANCE.getCurrent().name())
             .toJobParameters();
     
     JobExecution jobResult = jobLauncher.run(jobExecuteProcessor, jobParameters);

@@ -6,30 +6,39 @@ import java.util.Optional;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
+import br.com.gbvbahia.fake.environment.Environment;
+import br.com.gbvbahia.fake.environment.EnvironmentCurrentController;
 import br.com.gbvbahia.threads.monitor.batch.reader.mode.ItemReaderCounterToNullMode;
 import br.com.gbvbahia.threads.monitor.batch.reader.mode.ItemReaderMode;
 import br.com.gbvbahia.threads.monitor.batch.reader.mode.ItemReaderNeverNullMode;
 import br.com.gbvbahia.threads.monitor.batch.reader.mode.ItemReaderNullMode;
 import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
+import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.service.ProcessorService;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
 
   private final BatchItemReaderMode batchItemReaderMode;
+  private final Environment enviroment;
   private final ProcessorService processorService;
   private final Integer amountThreads;
   private final Integer threadFactor;
-  private final List<ItemReaderMode> itemsMode = new ArrayList<>(); 
+  private final List<ItemReaderMode> itemsMode = new ArrayList<>();
   
   @Override
   public Optional<Processor> read() throws Exception {
+    
+    if (shouldFinishCurrentJob()) {
+      log.info("This job must be finished.");
+      return null;
+    }
     
     Optional<Processor> toProcess = processorService.findNextToBeProcessed();
     
@@ -45,6 +54,13 @@ public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
   }
   
   
+  private boolean shouldFinishCurrentJob() {
+   
+    return !EnvironmentCurrentController.INSTANCE.getCurrent().equals(enviroment)
+        || !BatchModeController.INSTANCE.getBatchMode().equals(batchItemReaderMode);
+  }
+
+
   @BeforeStep
   public void retrieveInterstepData(StepExecution stepExecution) {
     itemsMode.clear();
@@ -52,5 +68,4 @@ public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
     itemsMode.add(new ItemReaderNeverNullMode());
     itemsMode.add(new ItemReaderCounterToNullMode(amountThreads * threadFactor));
   }
-
 }

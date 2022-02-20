@@ -1,11 +1,11 @@
-package br.com.gbvbahia.threads.monitor.controller.error;
+package br.com.gbvbahia.fake.controller.error;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import br.com.gbvbahia.threads.monitor.controller.Pages;
+import br.com.gbvbahia.fake.controller.Pages;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller

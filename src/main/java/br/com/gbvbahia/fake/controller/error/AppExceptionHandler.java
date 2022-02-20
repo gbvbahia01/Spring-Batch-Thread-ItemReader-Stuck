@@ -1,11 +1,11 @@
-package br.com.gbvbahia.threads.monitor.controller.error;
+package br.com.gbvbahia.fake.controller.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import br.com.gbvbahia.threads.monitor.controller.Pages;
+import br.com.gbvbahia.fake.controller.Pages;
 import lombok.extern.slf4j.Slf4j;
 
 /**
