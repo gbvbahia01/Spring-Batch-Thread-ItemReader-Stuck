@@ -16,11 +16,11 @@ public class ProcessorOldJobScheduler {
 
   @Scheduled(fixedRateString = "${app.scheduler.processor.old.rate}")
   public void idle() {
-    log.info("Processor Old Started");
+    log.trace("Processor Old Started");
 
     processorService.deleteOldProcess();;
 
-    log.info("Processor Old Finished");
+    log.trace("Processor Old Finished");
   }
 
 }
