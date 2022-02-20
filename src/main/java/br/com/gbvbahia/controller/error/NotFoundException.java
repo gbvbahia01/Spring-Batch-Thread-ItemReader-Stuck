@@ -1,4 +1,4 @@
-package br.com.gbvbahia.fake.controller.error;
+package br.com.gbvbahia.controller.error;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

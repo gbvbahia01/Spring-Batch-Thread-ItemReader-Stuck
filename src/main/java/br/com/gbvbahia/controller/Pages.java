@@ -1,4 +1,4 @@
-package br.com.gbvbahia.fake.controller;
+package br.com.gbvbahia.controller;
 
 public enum Pages {
 

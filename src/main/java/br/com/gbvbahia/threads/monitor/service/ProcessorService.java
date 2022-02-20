@@ -5,11 +5,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
+import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
+import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.persistence.repository.ProcessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +26,11 @@ public class ProcessorService {
 
   @Value("${app.batch.idle}")
   private Integer IDLE_PROCESS;
-  
+
   @Value("${app.batch.old}")
   private Integer OLD_PROCESS;
 
+  private final ApplicationEventPublisher applicationEventPublisher;
   private final ModelMapper modelMapper;
   private final ProcessorRepository processorRepository;
 
@@ -70,19 +75,32 @@ public class ProcessorService {
   public void releaseIdleProcess() {
     LocalDateTime idleTime = LocalDateTime.now().minus(IDLE_PROCESS, ChronoUnit.MILLIS);
     processorRepository.findByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime)
-    .forEach(process -> {
-      process.setProcessStatus(ProcessStatus.WAITING);
-      processorRepository.save(process);
-    });
+        .forEach(process -> {
+          process.setProcessStatus(ProcessStatus.WAITING);
+          processorRepository.save(process);
+        });
   }
-  
+
   public void deleteOldProcess() {
     LocalDateTime idleTime = LocalDateTime.now().minus(OLD_PROCESS, ChronoUnit.MILLIS);
     processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime);
   }
-  
+
   public Long countByProcessStatus(ProcessStatus processStatus) {
     return processorRepository.countByProcessStatus(processStatus);
+  }
+
+  public void changeReadMode(BatchItemReaderMode readModeTo) {
+    boolean readModeDoesChange = !BatchModeController.INSTANCE.getBatchMode().equals(readModeTo);
+
+    log.info("BatchItemReaderMode change from: {} to {}",
+        BatchModeController.INSTANCE.getBatchMode(), readModeTo);
+
+    BatchModeController.INSTANCE.setBatchMode(readModeTo);
+
+    applicationEventPublisher.publishEvent(
+        BatchReadModeChangedEvent.builder().readModeChanged(readModeDoesChange)
+        .build());
   }
 
 }

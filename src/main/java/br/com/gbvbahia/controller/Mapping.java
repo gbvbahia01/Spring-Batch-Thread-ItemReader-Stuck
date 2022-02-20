@@ -1,4 +1,4 @@
-package br.com.gbvbahia.fake.controller;
+package br.com.gbvbahia.controller;
 
 public interface Mapping {
 
@@ -7,6 +7,7 @@ public interface Mapping {
   public static interface Fake {
     String PATH = PATH_BASE + "/fake";
     String CHANGE_ENVIRONMENT = "/environment/{env}";
+    String CHANGE_READ_MODE = "/read/{mode}";
   }
 
 

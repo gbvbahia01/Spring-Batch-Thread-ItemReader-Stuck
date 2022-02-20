@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.until;
+package br.com.gbvbahia.util;
 
 public interface Constants {
 

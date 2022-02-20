@@ -1,4 +1,4 @@
-package br.com.gbvbahia.fake.controller;
+package br.com.gbvbahia.controller;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +16,7 @@ import br.com.gbvbahia.fake.environment.EnvironmentCurrentController;
 import br.com.gbvbahia.fake.service.FakeService;
 import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
 import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
+import br.com.gbvbahia.threads.monitor.service.ProcessorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping({"/", Mapping.PATH_BASE, Mapping.Fake.PATH})
 @Slf4j
 @RequiredArgsConstructor
-public class FakeController {
+public class RestController {
 
   private final FakeService fakeService;
-
+  private final ProcessorService processorService;
+  
   @PostConstruct
   void init() {
     log.info("FakeController started.");
@@ -58,6 +60,23 @@ public class FakeController {
     } catch (Exception e) {
       
       String error = String.format("Error on process envOrdinal: %d. %s", envOrdinal, e.getMessage());
+      log.error(error, e);
+      return ResponseEntity.internalServerError().build();
+    }
+  }
+  
+  @PostMapping(value = Mapping.Fake.CHANGE_READ_MODE)
+  public ResponseEntity<Void> changeReadMode(@PathVariable("mode") @NotNull Integer modeOrdinal) {
+
+    try {
+      
+      BatchItemReaderMode readModeTo = BatchItemReaderMode.values()[modeOrdinal];
+      processorService.changeReadMode(readModeTo);
+      return ResponseEntity.ok().build();
+      
+    } catch (Exception e) {
+      
+      String error = String.format("Error on process envOrdinal: %d. %s", modeOrdinal, e.getMessage());
       log.error(error, e);
       return ResponseEntity.internalServerError().build();
     }

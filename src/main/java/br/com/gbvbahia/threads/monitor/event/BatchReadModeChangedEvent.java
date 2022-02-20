@@ -1,5 +1,4 @@
 package br.com.gbvbahia.threads.monitor.event;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @Builder
-public class CurrentJobShouldStopEvent {
-
-  private final boolean shouldStopJob;
+public class BatchReadModeChangedEvent {
   
+  private final boolean readModeChanged;
 }

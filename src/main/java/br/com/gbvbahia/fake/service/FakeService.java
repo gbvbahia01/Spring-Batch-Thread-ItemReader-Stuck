@@ -25,7 +25,8 @@ public class FakeService {
 
     EnvironmentCurrentController.INSTANCE.setCurrent(environment);
 
-    applicationEventPublisher
-        .publishEvent(EnvironmentChangedEvent.builder().environmentChanged(environmentDoesChange).build());
+    applicationEventPublisher.publishEvent(
+        EnvironmentChangedEvent.builder().environmentChanged(environmentDoesChange)
+        .build());
   }
 }

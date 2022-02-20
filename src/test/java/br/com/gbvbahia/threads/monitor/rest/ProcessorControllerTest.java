@@ -24,8 +24,8 @@ import com.jayway.jsonpath.JsonPath;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import br.com.gbvbahia.threads.monitor.persistence.repository.ProcessorRepository;
-import br.com.gbvbahia.threads.monitor.until.Constants;
 import br.com.gbvbahia.threads.monitor.util.TestDTOFactory;
+import br.com.gbvbahia.util.Constants;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

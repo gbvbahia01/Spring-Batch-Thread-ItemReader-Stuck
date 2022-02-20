@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import br.com.gbvbahia.threads.monitor.dto.TaskExecutionDTO;
+import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
 import br.com.gbvbahia.threads.monitor.event.BatchTaskExecutorInfoEvent;
 import br.com.gbvbahia.threads.monitor.event.JobStartEndEvent;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +42,11 @@ public class BatchEventsListener {
   public void JobStartEndListener(JobStartEndEvent event) {
     
     simpMessagingTemplate.convertAndSend("/topic/jobStartEnd",  event);
+  }
+  
+  public void BatchReadModeChangedListener(BatchReadModeChangedEvent event) {
+    if (event.isReadModeChanged()) {
+      simpMessagingTemplate.convertAndSend("/topic/taskExecutorInfo",  BatchModeController.INSTANCE.getBatchMode());
+    }
   }
 }

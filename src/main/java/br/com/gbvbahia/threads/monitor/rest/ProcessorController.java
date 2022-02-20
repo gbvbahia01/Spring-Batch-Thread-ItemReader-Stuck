@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import br.com.gbvbahia.threads.monitor.service.ProcessorService;
-import br.com.gbvbahia.threads.monitor.until.Constants;
+import br.com.gbvbahia.util.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
