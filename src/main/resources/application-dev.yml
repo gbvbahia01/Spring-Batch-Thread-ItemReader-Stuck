@@ -29,7 +29,7 @@ app:
       factor: 10
       chunks: 5
     idle: 60000
-    old: 180000
+    old: 60000
   scheduler:
     batch:
       rate: 5000

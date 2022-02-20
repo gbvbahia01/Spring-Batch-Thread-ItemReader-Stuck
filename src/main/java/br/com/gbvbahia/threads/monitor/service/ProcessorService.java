@@ -84,7 +84,7 @@ public class ProcessorService {
 
   public void deleteOldProcess() {
     LocalDateTime idleTime = LocalDateTime.now().minus(OLD_PROCESS, ChronoUnit.MILLIS);
-    processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime);
+    processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.FINISHED, idleTime);
   }
 
   public void generateProcessorCounterEvent() {

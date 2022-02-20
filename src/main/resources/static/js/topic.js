@@ -1,6 +1,7 @@
-const COLOR_YELLOW = 'rgba(255, 165, 0, 0.5)';
-const COLOR_GREEN = 'rgba(60, 179, 113, 0.5)';
-const COLOR_BLUE = 'rgba(0, 0, 255, 0.5)';
+const COLOR_YELLOW = 'rgba(255, 165, 0, 1.0)';
+const COLOR_GREEN = 'rgba(60, 179, 113, 1.0)';
+const COLOR_BLUE = 'rgba(0, 0, 255, 1.0)';
+const COLOR_RED = 'rgba(255, 99, 132, 1.0)';
 
 // ===================
 // # Websocket Connect
@@ -148,6 +149,39 @@ function updateCountProcess(json) {
 	console.log('JobStartEnd waiting: ' + json.waiting);
 	console.log('JobStartEnd processing: ' + json.processing);
 	console.log('JobStartEnd finished: ' + json.finished);
+	
+	const data = {
+		labels: [
+			'Waiting',
+			'Processing',
+			'Finished'
+		],
+		datasets: [{
+			label: 'My First Dataset',
+			data: [json.waiting, json.processing, json.finished],
+			backgroundColor: [
+				COLOR_RED,
+				COLOR_YELLOW,
+				COLOR_GREEN
+			],
+			hoverOffset: 4
+		}]
+	};
+
+	const config = {
+		type: 'pie',
+		data: data,
+		options: {
+        	animation: false
+    	}
+	};
+	
+	let chartStatus = Chart.getChart("pieProcess");
+	if (chartStatus != undefined) {
+		chartStatus.destroy();
+	}
+	
+	new Chart(document.getElementById('pieProcess'), config );
 }
 
 //https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-an-element-by-an-id-that-has-characters-used-in-css-notation/
