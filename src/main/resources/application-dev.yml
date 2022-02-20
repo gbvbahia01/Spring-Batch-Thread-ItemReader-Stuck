@@ -35,6 +35,10 @@ app:
       rate: 5000
       delay: 1000
     processor:
+      idle:
+        rate: 30000
+      old:
+        rate: 30000
       counter:
         rate: 1000
 

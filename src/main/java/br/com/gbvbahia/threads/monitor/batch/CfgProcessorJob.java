@@ -38,42 +38,14 @@ public class CfgProcessorJob {
   private final ProcessorApiCallerService processorApiCallerService;
 
   @Bean
-  public Job jobExecuteProcessor(Step stepReleaseIdleProcess,
-      Step stepDeleteOldProcess,
-      Step stepExecuteProcessor) {
+  public Job jobExecuteProcessor(Step stepExecuteProcessor) {
 
     return jobsFactory
         .get("jobExecuteProcessor")
         .incrementer(new RunIdIncrementer())
-        .start(stepReleaseIdleProcess)
-        .next(stepDeleteOldProcess)
-        .next(stepExecuteProcessor)
+        .start(stepExecuteProcessor)
         .listener(startEndJobNotificationListener)
         .build();
-  }
-  
-  @Bean
-  public Step stepReleaseIdleProcess() {
-    return this.stepsFactory.get("stepIdleProcess")
-        .tasklet(processorReleaseIdleTasklet())
-        .build();
-  }
-  
-  @Bean
-  public ProcessorReleaseIdleTasklet processorReleaseIdleTasklet() {
-    return ProcessorReleaseIdleTasklet.builder().processorService(processorService).build();
-  }
-  
-  @Bean
-  public Step stepDeleteOldProcess() {
-    return this.stepsFactory.get("stepDeleteOldProcess")
-        .tasklet(processorDeleteOldTasklet())
-        .build();
-  }
-  
-  @Bean
-  public ProcessorDeleteOldTasklet processorDeleteOldTasklet() {
-    return ProcessorDeleteOldTasklet.builder().processorService(processorService).build();
   }
   
   @Bean

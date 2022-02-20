@@ -73,6 +73,7 @@ public class ProcessorService {
     processorRepository.save(processor);
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   public void releaseIdleProcess() {
     LocalDateTime idleTime = LocalDateTime.now().minus(IDLE_PROCESS, ChronoUnit.MILLIS);
     processorRepository.findByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime)
@@ -82,11 +83,13 @@ public class ProcessorService {
         });
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
   public void deleteOldProcess() {
     LocalDateTime idleTime = LocalDateTime.now().minus(OLD_PROCESS, ChronoUnit.MILLIS);
     processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.FINISHED, idleTime);
   }
 
+  @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
   public void generateProcessorCounterEvent() {
     
     Long waiting = processorRepository.countByProcessStatus(ProcessStatus.WAITING);
