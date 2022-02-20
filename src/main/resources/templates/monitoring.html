@@ -93,6 +93,56 @@
 			</div>
 		</div>
 	</div>
+	<div class="row g-2">
+			<div class="col-3">
+				<div class="p-3 border bg-light">
+					<div class="row" style="height: 110px;">
+						<div class="col">
+							<div th:each="read : ${readmodes}">
+				            	<button th:onclick="'javascript:changeEnvironment('+ ${read.ordinal()} +')'" class="btn btn-light">
+				            		<th:block th:if="${readmode == read}">
+				        				<i th:id="${read} + '_ICO_READ'"  class="fa fa-toggle-on" aria-hidden="true"></i>
+				        			</th:block>
+				        			<th:block th:if="${readmode != read}">
+				        				<i th:id="${read} + '_ICO_READ'" class="fa fa-toggle-off" aria-hidden="true"></i>
+				        			</th:block>
+				            	</button> 
+				            	<label th:text="${read}">read</label>
+				        	</div>
+						</div>
+			        </div>
+				</div>
+			</div>
+			
+			<div class="col-9">
+				<div class="p-4 border bg-light">
+					<div class="row" style="height: 80px;">
+					    
+					    <table class="table">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col" colspan="2">Name</th>
+						      <th scope="col">Status</th>
+						    </tr>
+						  </thead>
+						  <tbody id="tbody_startEnd">
+					        
+						  </tbody>
+						</table>
+					    
+			  		  <div class="row">
+			  		  	<div class="col">
+				  			<div class="progress">
+								<div id="pg_ac" class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+			  		  	</div>
+		  		  	</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
 </div>
 
 	<!-- Script -->
@@ -100,6 +150,7 @@
     <script type="application/javascript">
     	connectBatchEnv();
     	connectTaskExecutor();
+    	connectJobStartEnd();
     </script>
 
 </body>

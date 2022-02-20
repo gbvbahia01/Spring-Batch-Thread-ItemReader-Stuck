@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.gbvbahia.fake.environment.Environment;
 import br.com.gbvbahia.fake.environment.EnvironmentCurrentController;
 import br.com.gbvbahia.fake.service.FakeService;
+import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
+import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +39,9 @@ public class FakeController {
 
     model.addAttribute("environment", EnvironmentCurrentController.INSTANCE.getCurrent());
     model.addAttribute("environments", Environment.values());
+    
+    model.addAttribute("readmode", BatchModeController.INSTANCE.getBatchMode());
+    model.addAttribute("readmodes", BatchItemReaderMode.values());
 
     return Pages.MONITORING.pageName;
   }

@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import br.com.gbvbahia.threads.monitor.dto.TaskExecutionDTO;
 import br.com.gbvbahia.threads.monitor.event.BatchTaskExecutorInfoEvent;
+import br.com.gbvbahia.threads.monitor.event.JobStartEndEvent;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -33,5 +34,11 @@ public class BatchEventsListener {
     .build();
     
     simpMessagingTemplate.convertAndSend("/topic/taskExecutorInfo",  dto);
+  }
+  
+  @EventListener
+  public void JobStartEndListener(JobStartEndEvent event) {
+    
+    simpMessagingTemplate.convertAndSend("/topic/jobStartEnd",  event);
   }
 }
