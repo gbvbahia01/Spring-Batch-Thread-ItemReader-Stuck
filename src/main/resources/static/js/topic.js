@@ -73,6 +73,19 @@ function connectReadMode() {
 	});
 }
 
+function connectProcessorCounter() {
+
+	var pathTopic = '/topic/countProcess';
+	let stompClient = getStompClient();
+	stompClient.connect({}, function() {
+		stompClient.subscribe(pathTopic, function(traffic) {
+			//console.log(pathTopic + traffic);
+			let json = JSON.parse(traffic.body);
+			updateCountProcess(json);
+		});
+	});
+}
+
 // ================
 // # Update Page
 // ================
@@ -114,21 +127,27 @@ function updateTaskExecutor(json) {
 }
 
 function updateJobStartEnd(json) {
-	console.log('JobStartEnd startJob: ' + json.startJob);
-	console.log('JobStartEnd jobId: ' + json.jobId);
-	console.log('JobStartEnd jobName: ' + json.jobName);
+	//console.log('JobStartEnd startJob: ' + json.startJob);
+	//console.log('JobStartEnd jobId: ' + json.jobId);
+	//console.log('JobStartEnd jobName: ' + json.jobName);
 	
 	let toAppend = `<tr id="${json.jobId}_start_end">
 	<th scope="row">${json.jobId}</th>
 	<td colspan="2">${json.jobName}</td>
 	<td>${(json.startJob ? "Started" : "Finished")}</td>
 	</tr>`
-	console.log(toAppend)
+	//console.log(toAppend)
 	 $(jq('tbody_startEnd')).prepend(toAppend);
 	 
 	 let toRemove = (json.jobId - 3) + '_start_end';
-	 console.log(toRemove)
+	 //console.log(toRemove)
 	 $(jq(toRemove)).remove();
+}
+
+function updateCountProcess(json) {
+	console.log('JobStartEnd waiting: ' + json.waiting);
+	console.log('JobStartEnd processing: ' + json.processing);
+	console.log('JobStartEnd finished: ' + json.finished);
 }
 
 //https://learn.jquery.com/using-jquery-core/faq/how-do-i-select-an-element-by-an-id-that-has-characters-used-in-css-notation/

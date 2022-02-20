@@ -14,6 +14,7 @@ import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
+import br.com.gbvbahia.threads.monitor.event.ProcessorCounterEvent;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.persistence.repository.ProcessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -86,8 +87,19 @@ public class ProcessorService {
     processorRepository.deleteByProcessStatusAndUpdatedAtBefore(ProcessStatus.PROCESSING, idleTime);
   }
 
-  public Long countByProcessStatus(ProcessStatus processStatus) {
-    return processorRepository.countByProcessStatus(processStatus);
+  public void generateProcessorCounterEvent() {
+    
+    Long waiting = processorRepository.countByProcessStatus(ProcessStatus.WAITING);
+    Long processing = processorRepository.countByProcessStatus(ProcessStatus.PROCESSING);
+    Long finished = processorRepository.countByProcessStatus(ProcessStatus.FINISHED);
+    
+    ProcessorCounterEvent event = ProcessorCounterEvent.builder().waiting(waiting.intValue())
+    .processing(processing.intValue())
+    .finished(finished.intValue())
+    .build();
+    
+    applicationEventPublisher.publishEvent(event);
+    
   }
 
   public void changeReadMode(BatchItemReaderMode readModeTo) {

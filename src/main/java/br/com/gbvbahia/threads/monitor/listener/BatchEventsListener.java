@@ -9,6 +9,7 @@ import br.com.gbvbahia.threads.monitor.dto.TaskExecutionDTO;
 import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
 import br.com.gbvbahia.threads.monitor.event.BatchTaskExecutorInfoEvent;
 import br.com.gbvbahia.threads.monitor.event.JobStartEndEvent;
+import br.com.gbvbahia.threads.monitor.event.ProcessorCounterEvent;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -39,15 +40,20 @@ public class BatchEventsListener {
   }
   
   @EventListener
-  public void JobStartEndListener(JobStartEndEvent event) {
+  public void jobStartEndListener(JobStartEndEvent event) {
     
     simpMessagingTemplate.convertAndSend("/topic/jobStartEnd",  event);
   }
   
   @EventListener
-  public void BatchReadModeChangedListener(BatchReadModeChangedEvent event) {
+  public void batchReadModeChangedListener(BatchReadModeChangedEvent event) {
     if (event.isReadModeChanged()) {
       simpMessagingTemplate.convertAndSend("/topic/readMode",  BatchModeController.INSTANCE.getBatchMode());
     }
+  }
+  
+  @EventListener
+  public void processorCounterListener(ProcessorCounterEvent event) {
+    simpMessagingTemplate.convertAndSend("/topic/countProcess", event);
   }
 }
