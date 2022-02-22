@@ -152,58 +152,61 @@ header {
 }
 
 /*================================
-	# Tables
-================================*/
-table {
-	border: 1px solid rgba(115, 115, 115, 0.40);
-	font-size: 13px;
-}
-
-table td {
-	height: 50px;
-	vertical-align: middle !important;
-}
-
-table td .list-group-item {
-	padding: .30rem 0.75rem !important;
-	background-color: transparent !important;
-}
-
-table td .list-group-flush>.list-group-item {
-border-width: 0 0 0px !important;	
-}
-
-.columnBts {
-	text-align: right;
-	 white-space: nowrap;
-}
-
-.editBtOnTables {
-	margin-right: 5px;
-}
-
-.deleteBts {
-	padding: .15rem .50rem !important;
-}
-
-
-
-/*================================
-	# Form
-================================*/
-.formstyle {
-	padding: 20px 0px 10px 0px; 
-}
-
-.errorText {
-	color: red !important;
-}
-
-/*================================
 	# Alerts
 ================================*/
 .alertPage {
 	width: 100%;
 	min-height: 50px;
 	padding: 10px 0px 10px 0px
+}
+
+/*================================
+	# Fieldset
+================================*/
+fieldset {
+  padding:16px;	
+  border:2px solid rgb(235, 228, 244);
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;	
+  border-radius:8px;
+  
+  padding: 0 1.4em 1.4em 1.4em !important;
+  margin: 0 0 1.5em 0 !important;
+  -webkit-box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px #000;
+}
+
+.fieldsetTop {
+  height: 180px;
+}
+
+.fieldsetBottom {
+  height: 490px;
+}
+
+legend {
+  font-size: 1.2em !important;
+  font-weight: bold !important;
+  text-align: left !important;
+  width: auto;
+  padding: 0 10px;
+  border-bottom: none;
+  margin-top: -15px;
+  background-color: white;
+  color: black;
+}
+
+/*================================
+	# BT toggle
+================================*/
+.toggleBt {
+	margin-top: 5px;
+}
+
+/*================================
+	# Chart
+================================*/
+.chartSize {
+	 width: 80%;
+	 margin: 20px;
 }

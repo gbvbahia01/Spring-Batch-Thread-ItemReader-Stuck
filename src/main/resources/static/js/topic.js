@@ -143,7 +143,7 @@ function updateJobStartEnd(json) {
 	 //console.log(newId)
 	 $(jq(newId)).effect("highlight", { color: COLOR_BLUE }, 1000);			
 	 
-	 let toRemove = (json.jobId - 3) + '_start_end';
+	 let toRemove = (json.jobId - 4) + '_start_end';
 	 //console.log(toRemove)
 	 $(jq(toRemove)).remove();
 }
