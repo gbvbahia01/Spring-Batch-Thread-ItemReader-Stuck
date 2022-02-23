@@ -1,6 +1,7 @@
 package br.com.gbvbahia.threads.monitor.batch;
 
 import java.util.Optional;
+import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -8,7 +9,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -19,9 +19,11 @@ import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.service.ProcessorApiCallerService;
 import br.com.gbvbahia.threads.monitor.service.ProcessorService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class CfgProcessorJob {
 
   public static final Integer INTEGER_OVERRIDDEN_BY_EXPRESSION = null;
@@ -30,7 +32,6 @@ public class CfgProcessorJob {
   
   private final JobBuilderFactory jobsFactory;
   private final StepBuilderFactory stepsFactory;
-  private final ApplicationEventPublisher applicationEventPublisher;
   
   private final StartEndJobNotificationListener startEndJobNotificationListener;
   
@@ -63,6 +64,7 @@ public class CfgProcessorJob {
         .processor(fakeItemProcessor())
         .writer(processorItemWriter())
         .taskExecutor(taskExecutor(INTEGER_OVERRIDDEN_BY_EXPRESSION))
+        .throttleLimit(amountThreads)
         .build();
   }
   
@@ -74,7 +76,7 @@ public class CfgProcessorJob {
       @Value("#{jobParameters['ITEM_READER_MODE']}") String itemReaderMode,
       @Value("#{jobParameters['ITEM_ENVIROMENT']}") String itemEnvironment) {
 
-    return ProcessorItemReader.builder().amountThreads(amountThreads).threadFactor(threadFactor)
+    return ProcessorItemReader.builder()
         .batchItemReaderMode(BatchItemReaderMode.valueOf(itemReaderMode))
         .enviroment(Environment.valueOf(itemEnvironment))
         .processorService(processorService).build();
@@ -89,16 +91,19 @@ public class CfgProcessorJob {
   public ProcessorItemWriter processorItemWriter() {
     
     return ProcessorItemWriter.builder().processorService(processorService)
-        .taskExecutor(taskExecutor(INTEGER_OVERRIDDEN_BY_EXPRESSION))
-        .applicationEventPublisher(applicationEventPublisher)
         .build();
   }
 
   @Bean
   public ThreadPoolTaskExecutor taskExecutor(@Value("${app.batch.threads.amount}") Integer amountThreads) {
+    
+    log.info("ThreadPoolTaskExecutor amount threads: {}", amountThreads);
+    
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(amountThreads);
     executor.setMaxPoolSize(amountThreads);
+    executor.setQueueCapacity(0);
+    executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
     executor.setThreadNamePrefix("process-thread");
     executor.initialize();
     return executor;

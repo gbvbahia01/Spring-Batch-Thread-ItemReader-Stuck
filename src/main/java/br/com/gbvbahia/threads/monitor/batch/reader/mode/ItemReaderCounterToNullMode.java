@@ -13,6 +13,7 @@ public class ItemReaderCounterToNullMode implements ItemReaderMode {
   public ItemReaderCounterToNullMode(Integer lIMIT_TO_RETURN) {
     super();
     LIMIT_TO_RETURN = lIMIT_TO_RETURN;
+    COUNTER.set(0);
   }
 
   @Override

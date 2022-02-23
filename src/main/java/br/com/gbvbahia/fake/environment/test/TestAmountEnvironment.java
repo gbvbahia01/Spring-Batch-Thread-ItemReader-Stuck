@@ -13,8 +13,8 @@ public class TestAmountEnvironment extends AbsAmountEnvironmentContract {
   }
 
   @Override
-  protected int factor() {
-    return 2;
+  public Integer amount() {
+    return 10;
   }
 
 }

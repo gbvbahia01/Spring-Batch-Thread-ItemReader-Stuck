@@ -92,17 +92,21 @@ public class ProcessorService {
   @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
   public void generateProcessorCounterEvent() {
     
-    Long waiting = processorRepository.countByProcessStatus(ProcessStatus.WAITING);
-    Long processing = processorRepository.countByProcessStatus(ProcessStatus.PROCESSING);
-    Long finished = processorRepository.countByProcessStatus(ProcessStatus.FINISHED);
+    Integer waiting = processorRepository.countByProcessStatus(ProcessStatus.WAITING);
+    Integer processing = processorRepository.countByProcessStatus(ProcessStatus.PROCESSING);
+    Integer finished = processorRepository.countByProcessStatus(ProcessStatus.FINISHED);
     
-    ProcessorCounterEvent event = ProcessorCounterEvent.builder().waiting(waiting.intValue())
-    .processing(processing.intValue())
-    .finished(finished.intValue())
+    ProcessorCounterEvent event = ProcessorCounterEvent.builder().waiting(waiting)
+    .processing(processing)
+    .finished(finished)
     .build();
     
     applicationEventPublisher.publishEvent(event);
     
+  }
+  
+  public Integer countByStatusWaiting() {
+    return processorRepository.countByProcessStatus(ProcessStatus.WAITING).intValue();
   }
 
   public void changeReadMode(BatchItemReaderMode readModeTo) {

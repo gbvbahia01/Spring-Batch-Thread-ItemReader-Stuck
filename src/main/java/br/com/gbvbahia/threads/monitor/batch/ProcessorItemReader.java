@@ -28,8 +28,6 @@ public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
   private final BatchItemReaderMode batchItemReaderMode;
   private final Environment enviroment;
   private final ProcessorService processorService;
-  private final Integer amountThreads;
-  private final Integer threadFactor;
   private final List<ItemReaderMode> itemsMode = new ArrayList<>();
   
   @Override
@@ -66,6 +64,6 @@ public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
     itemsMode.clear();
     itemsMode.add(new ItemReaderNullMode());
     itemsMode.add(new ItemReaderNeverNullMode());
-    itemsMode.add(new ItemReaderCounterToNullMode(amountThreads * threadFactor));
+    itemsMode.add(new ItemReaderCounterToNullMode(processorService.countByStatusWaiting()));
   }
 }

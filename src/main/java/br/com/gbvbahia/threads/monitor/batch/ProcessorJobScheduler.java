@@ -21,7 +21,7 @@ public class ProcessorJobScheduler {
 
   private final JobLauncher jobLauncher;
   private final Job jobExecuteProcessor;
-
+  
   @Scheduled(fixedRateString = "${app.scheduler.batch.rate}",
              initialDelayString = "${app.scheduler.batch.delay}")
   public void processStarter() throws Exception {
@@ -38,4 +38,6 @@ public class ProcessorJobScheduler {
     
     log.trace("End Job Processor with status: {}", jobResult.getStatus());
   }
+  
+  
 }

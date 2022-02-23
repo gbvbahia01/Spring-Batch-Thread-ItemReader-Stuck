@@ -20,5 +20,5 @@ public interface ProcessorRepository extends JpaRepository<Processor, Long> {
   
   List<Processor> findByProcessStatusAndUpdatedAtBefore(ProcessStatus processStatus, LocalDateTime updatedAt);
   
-  Long countByProcessStatus(ProcessStatus processStatus);
+  Integer countByProcessStatus(ProcessStatus processStatus);
 }

@@ -13,8 +13,8 @@ public class QAAmountEnvironment extends AbsAmountEnvironmentContract {
   }
 
   @Override
-  protected int factor() {
-    return 1;
+  public Integer amount() {
+    return 15;
   }
 
 
