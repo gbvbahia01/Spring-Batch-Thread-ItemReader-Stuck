@@ -3,6 +3,7 @@
 //==================================
 $(window).on('load', function () {
     $(".loading-overlay").fadeOut(600);
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 

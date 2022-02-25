@@ -43,11 +43,9 @@
 		<div class="col-3">
 				<div class="row topRow">
 					<div class="col">
-						<p class="info">Changes here will affect <i>AbsAmountEnvironmentContract</i> class.</p>
-					</div>
-					<div class="col">
 						<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto">Environment Mode</legend>
+							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Changes here will affect <i>AbsAmountEnvironmentContract</i> class."></i> Environment Mode</legend>
+							
 							<div th:each="env : ${environments}">
 								<div class="toggleBt">
 					            	<button th:onclick="'javascript:changeEnvironment('+ ${env.ordinal()} +')'" class="btn btn-light">
@@ -68,11 +66,8 @@
 		<div class="col-3">
 				<div class="row topRow">
 					<div class="col">
-						<p class="info">Changes here will affect <i>ProcessorItemReader</i> class.</p>
-					</div>
-					<div class="col">
 						<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto">Job Reader Mode</legend>
+							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Changes here will affect <i>ProcessorItemReader</i> class."></i> Job Reader Mode</legend>
 							<div th:each="read : ${readmodes}">
 								<div class="toggleBt">
 					            	<button th:onclick="'javascript:changeReadMode('+ ${read.ordinal()} +')'" class="btn btn-light">
@@ -93,12 +88,9 @@
 		
 		<div class="col-6">
 			<div class="row align-items-end">
-			<div class="col mt-auto align-self-end">
-				<p class="info" style="padding-top: 22px;">Reflect the pool <i>ThreadPoolTaskExecutor</i> on <i>CfgProcessorJob</i> class.</p>
-			</div>
 				<div class="col-12">
 					<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto">Threads Pool Info</legend>
+							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Reflect the pool <i>ThreadPoolTaskExecutor</i> on <i>CfgProcessorJob</i> class."></i>Threads Pool Info</legend>
 						<div class="row" style="height: 55px;">
 							<div class="col">
 								<label>Yml Threads:</label>
