@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-class AbsAmountEnvironmentContractTest {
+class AbsAmountAndSchedulerEnvironmentContractTest {
 
   @BeforeEach
   void setUp() throws Exception {}

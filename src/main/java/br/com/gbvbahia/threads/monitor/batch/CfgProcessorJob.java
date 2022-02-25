@@ -1,5 +1,6 @@
 package br.com.gbvbahia.threads.monitor.batch;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadPoolExecutor;
 import org.springframework.batch.core.Job;
@@ -8,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import br.com.gbvbahia.threads.monitor.batch.listener.StartEndJobNotificationLis
 import br.com.gbvbahia.threads.monitor.dto.BatchItemReaderMode;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.service.ProcessorApiCallerService;
+import br.com.gbvbahia.threads.monitor.service.ProcessorMQSenderService;
 import br.com.gbvbahia.threads.monitor.service.ProcessorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +40,8 @@ public class CfgProcessorJob {
   
   private final ProcessorService processorService;
   private final ProcessorApiCallerService processorApiCallerService;
-
+  private final ProcessorMQSenderService processorMQSenderService;
+  
   @Bean
   public Job jobExecuteProcessor(Step stepExecuteProcessor) {
 
@@ -61,7 +65,7 @@ public class CfgProcessorJob {
             INTEGER_OVERRIDDEN_BY_EXPRESSION,
             STRING_OVERRIDDEN_BY_EXPRESSION,
             STRING_OVERRIDDEN_BY_EXPRESSION))
-        .processor(fakeItemProcessor())
+        .processor(compositeItemProcessor())
         .writer(processorItemWriter())
         .taskExecutor(taskExecutor(INTEGER_OVERRIDDEN_BY_EXPRESSION))
         .throttleLimit(amountThreads)
@@ -83,8 +87,22 @@ public class CfgProcessorJob {
   }
 
   @Bean
-  public FakeItemProcessor fakeItemProcessor() {
-    return FakeItemProcessor.builder().processorApiCallerService(processorApiCallerService).build();
+  public CompositeItemProcessor<Optional<Processor>, Optional<Processor>> compositeItemProcessor() {
+	  CompositeItemProcessor<Optional<Processor>, Optional<Processor>> composite = new CompositeItemProcessor<>();
+	  composite.setDelegates(List.of(fakeItemProcessor(), fakePrepareDataMQItemProcessor(), fakeSendDataToMQItemProcessor()));
+	  return composite;
+  }
+  
+  public FakeApiRequestItemProcessor fakeItemProcessor() {
+    return FakeApiRequestItemProcessor.builder().processorApiCallerService(processorApiCallerService).build();
+  }
+  
+  public FakePrepareDataMQItemProcessor fakePrepareDataMQItemProcessor() {
+    return new FakePrepareDataMQItemProcessor();
+  }
+  
+  public FakeSendDataToMQItemProcessor fakeSendDataToMQItemProcessor() {
+	  return FakeSendDataToMQItemProcessor.builder().processorMQSenderService(processorMQSenderService).build();
   }
 
   @Bean

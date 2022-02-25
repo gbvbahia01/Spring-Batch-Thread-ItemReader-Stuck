@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping({"/", Mapping.PATH_BASE, Mapping.Fake.PATH})
 @Slf4j
 @RequiredArgsConstructor
-public class RestController {
+public class MVCController {
 
   private final FakeService fakeService;
   private final ProcessorService processorService;
@@ -40,7 +40,7 @@ public class RestController {
     log.trace("start page");
 
     model.addAttribute("environment", EnvironmentCurrentController.INSTANCE.getCurrent());
-    model.addAttribute("environments", Environment.values());
+    model.addAttribute("environments", new Environment[] {Environment.TEST, Environment.PROD});
     
     model.addAttribute("readmode", BatchModeController.INSTANCE.getBatchMode());
     model.addAttribute("readmodes", BatchItemReaderMode.values());

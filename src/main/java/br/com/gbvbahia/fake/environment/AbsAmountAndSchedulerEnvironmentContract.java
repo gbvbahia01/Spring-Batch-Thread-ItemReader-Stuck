@@ -1,13 +1,11 @@
 package br.com.gbvbahia.fake.environment;
 
-public abstract class AbsAmountEnvironmentContract implements AmountEnvironmentContract {
+public abstract class AbsAmountAndSchedulerEnvironmentContract implements AmountAndSchedulerEnvironmentContract {
 
   @Override
   public boolean canHandle(Environment environment) {
     return getEnviroment().equals(environment);
   }
 
-  public abstract Integer amount();
-    
   protected abstract Environment getEnviroment();
 }

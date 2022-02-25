@@ -8,21 +8,19 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ProcessorApiCallerService {
+public class ProcessorMQSenderService {
 
 	private Faker faker = Faker.instance();
 
-	public String requestDataToProcess(String url) {
-		
+	public void sendDataToMQ(String data) {
+
 		try {
-			
-			Thread.sleep(faker.number().numberBetween(250, 500));
-			
+
+			Thread.sleep(faker.number().numberBetween(150, 350));
+
 		} catch (Exception e) {
 			log.error("Error on thread sleeping", e);
 		}
-		
-		return faker.job().title();
 
 	}
 
