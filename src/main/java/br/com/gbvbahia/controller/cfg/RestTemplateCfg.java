@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.cfg;
+package br.com.gbvbahia.controller.cfg;
 
 import java.time.Duration;
 import org.springframework.boot.web.client.RestTemplateBuilder;

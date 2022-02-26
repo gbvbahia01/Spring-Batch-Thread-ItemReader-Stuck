@@ -1,4 +1,4 @@
-package br.com.gbvbahia.threads.monitor.cfg;
+package br.com.gbvbahia.controller.cfg;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

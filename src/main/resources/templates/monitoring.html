@@ -44,7 +44,7 @@
 				<div class="row topRow">
 					<div class="col">
 						<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Changes here will affect <i>AbsAmountEnvironmentContract</i> class."></i> Environment Mode</legend>
+							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" th:title="#{enviroment.tooltip}"></i><span th:text="' ' + #{enviroment.legend}">enviroment.legend</span></legend>
 							
 							<div th:each="env : ${environments}">
 								<div class="toggleBt">
@@ -67,7 +67,7 @@
 				<div class="row topRow">
 					<div class="col">
 						<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Changes here will affect <i>ProcessorItemReader</i> class."></i> Job Reader Mode</legend>
+    						<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" th:title="#{readermode.tooltip}"></i><span th:text="' ' + #{readermode.legend}">readermode.legend</span></legend>
 							<div th:each="read : ${readmodes}">
 								<div class="toggleBt">
 					            	<button th:onclick="'javascript:changeReadMode('+ ${read.ordinal()} +')'" class="btn btn-light">
