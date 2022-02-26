@@ -24,6 +24,6 @@ public interface ProcessorRepository extends JpaRepository<Processor, Long> {
   Integer countByProcessStatus(ProcessStatus processStatus);
   
   @Query(nativeQuery = true,
-         value = "SELECT EXTRACT(SECOND FROM (end_at - created_at)) AS difference FROM PROCESSOR where PROCESS_STATUS = 'FINISHED' order by id desc limit 1")
-  Long maxDiferenceBetweenCreatedAndFinished();
+         value = "SELECT EXTRACT(EPOCH FROM (end_at - created_at)) AS difference FROM PROCESSOR where PROCESS_STATUS = 'FINISHED' order by id desc limit 1")
+  Optional<Double> maxDiferenceBetweenCreatedAndFinished();
 }

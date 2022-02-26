@@ -115,10 +115,10 @@ public class ProcessorService {
   
   @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
   public void maxDiferenceBetweenCreatedAndFinishedEvent() {
-    Long maxDifference = processorRepository.maxDiferenceBetweenCreatedAndFinished();
+    Optional<Double> maxDifference = processorRepository.maxDiferenceBetweenCreatedAndFinished();
     
     applicationEventPublisher.publishEvent(
-        MaxDifferenceBetweenCreatedAndFinishedEvent.builder().maxDifference(maxDifference)
+        MaxDifferenceBetweenCreatedAndFinishedEvent.builder().maxDifference(maxDifference.orElse(0.0).longValue())
         .build());
   }
 
