@@ -36,7 +36,7 @@
 
 <!-- Container -->
 <div class="container">
-	<div th:replace="fragments/menu :: alertPage"></div>
+	<div th:replace="fragments/page :: alertPage"></div>
 
 	<div class="row gap-2">
 	
@@ -44,7 +44,7 @@
 				<div class="row topRow">
 					<div class="col">
 						<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" th:title="#{enviroment.tooltip}"></i><span th:text="' ' + #{enviroment.legend}">enviroment.legend</span></legend>
+							<legend th:replace="fragments/page :: legendAndTooltip(#{enviroment.legend}, #{enviroment.tooltip})"></legend>
 							
 							<div th:each="env : ${environments}">
 								<div class="toggleBt">
@@ -67,7 +67,8 @@
 				<div class="row topRow">
 					<div class="col">
 						<fieldset class="fieldsetTop">
-    						<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" th:title="#{readermode.tooltip}"></i><span th:text="' ' + #{readermode.legend}">readermode.legend</span></legend>
+							<legend th:replace="fragments/page :: legendAndTooltip(#{readermode.legend}, #{readermode.tooltip})"></legend>
+							
 							<div th:each="read : ${readmodes}">
 								<div class="toggleBt">
 					            	<button th:onclick="'javascript:changeReadMode('+ ${read.ordinal()} +')'" class="btn btn-light">
@@ -90,7 +91,7 @@
 			<div class="row align-items-end">
 				<div class="col-12">
 					<fieldset class="fieldsetTop">
-							<legend class="float-none w-auto"><i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Reflect the pool <i>ThreadPoolTaskExecutor</i> on <i>CfgProcessorJob</i> class."></i>Threads Pool Info</legend>
+						<legend th:replace="fragments/page :: legendAndTooltip(#{threadspool.legend}, #{threadspool.tooltip})"></legend>
 						<div class="row" style="height: 55px;">
 							<div class="col">
 								<label>Yml Threads:</label>
@@ -126,9 +127,8 @@
 	
 	<div class="row g-2">
 		<div class="col-6 p-3">
-			<p class="info">Amount of process Waiting, Processing and Finished.</p>
 			<fieldset class="fieldsetBottom">
-				<legend class="float-none w-auto">Process Status</legend>
+				<legend th:replace="fragments/page :: legendAndTooltip(#{processstatus.legend}, #{processstatus.tooltip})"></legend>
 				<div class="row">
 					<div class="col d-flex justify-content-center">
       					<div class="chart-container chartSize">
@@ -140,9 +140,8 @@
 		</div>
 		
 		<div class="col-6 p-3">
-		<p class="info">Last batch execution. Here if the last is started means that a job is running.</p>
 		<fieldset class="fieldsetBottom">
-			<legend class="float-none w-auto">Jobs Status</legend>
+			<legend th:replace="fragments/page :: legendAndTooltip(#{jobexecutionstatus.legend}, #{jobexecutionstatus.tooltip})"></legend>
 			<table class="table">
 				<thead>
 					<tr>

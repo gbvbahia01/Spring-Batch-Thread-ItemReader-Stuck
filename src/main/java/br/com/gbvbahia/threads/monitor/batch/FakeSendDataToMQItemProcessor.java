@@ -21,6 +21,7 @@ public class FakeSendDataToMQItemProcessor implements ItemProcessor<Optional<Pro
 		if (item.isPresent()) {
 			Processor processor = item.get();
 			processorMQSenderService.sendDataToMQ(processor.getDataResult());
+			processor.setProcessResult("SENT");
 		}
 
 		return item;

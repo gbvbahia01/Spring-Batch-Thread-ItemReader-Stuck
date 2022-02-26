@@ -22,6 +22,7 @@ public class FakeApiRequestItemProcessor implements ItemProcessor<Optional<Proce
       Processor processor = item.get();
       String dataToProcess = processorApiCallerService.requestDataToProcess(processor.getUrlToCall());
       processor.setDataToProcess(dataToProcess);
+      processor.setProcessResult("Requested");
     }
     
     return item;

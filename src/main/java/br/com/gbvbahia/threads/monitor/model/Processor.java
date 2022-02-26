@@ -1,5 +1,6 @@
 package br.com.gbvbahia.threads.monitor.model;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -51,5 +52,11 @@ public class Processor extends BaseModel {
   @Size(min= 0, max= 255)
   @Column(name = "process_result")
   private String processResult;
+  
+  @Column(name= "start_at")
+  private LocalDateTime startProcess;
+  
+  @Column(name= "end_at")
+  private LocalDateTime endProcess;
   
 }

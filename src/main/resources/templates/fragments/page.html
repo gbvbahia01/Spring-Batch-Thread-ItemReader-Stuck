@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" lang="en">
+<!-- {-sm|-md|-lg|-xl} -->
+
+
+<div th:fragment="alertPage" class="alertPage">
+	<th:block th:if="${alerMsg != null}">
+	<div class="alert alert-primary" role="alert" style="width: 100%">
+ 			 <span th:text="${alerMsg}" th:remove="tag">title</span>
+	</div>
+	</th:block>
+</div>
+
+<div th:fragment="legendAndTooltip(legend, tooltip)" class="container-sm">
+	<legend class="float-none w-auto" style="white-space: nowrap;">
+		<i id="tooltipEnv" class="fas fa-question-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" th:title="${tooltip}"></i>
+		<span th:text="' ' + ${legend}">jobexecutionstatus.legend</span>
+	</legend>
+</div>
+
+</html>

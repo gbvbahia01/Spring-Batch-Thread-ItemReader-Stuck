@@ -22,7 +22,7 @@ public class ProcessorItemWriter implements ItemWriter<Optional<Processor>> {
     if (!CollectionUtils.isEmpty(items)) {
 
       items.stream().filter(opt -> opt != null && opt.isPresent()).collect(Collectors.toList())
-          .forEach(opt -> processorService.save(opt.get()));
+          .forEach(opt -> processorService.saveProcessResult(opt.get()));
     }
 
   }

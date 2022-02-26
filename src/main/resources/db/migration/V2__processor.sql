@@ -9,5 +9,7 @@ CREATE TABLE processor  (
 	data_result VARCHAR(255) NULL,
 	url_to_call VARCHAR(2048) NOT NULL,
 	process_status VARCHAR(30) NOT NULL,
-	process_result VARCHAR(255) NULL
+	process_result VARCHAR(255) NULL,
+	start_at TIMESTAMP NULL,
+	end_at TIMESTAMP NULL
 ) ;

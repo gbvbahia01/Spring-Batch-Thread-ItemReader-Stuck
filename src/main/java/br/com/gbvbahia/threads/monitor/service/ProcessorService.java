@@ -62,6 +62,7 @@ public class ProcessorService {
     Processor toProcess = nextOpt.get();
 
     toProcess.setProcessStatus(ProcessStatus.PROCESSING);
+    toProcess.setStartProcess(LocalDateTime.now());
     processorRepository.save(toProcess);
 
     return Optional.of(toProcess);
@@ -69,7 +70,8 @@ public class ProcessorService {
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
-  public void save(Processor processor) {
+  public void saveProcessResult(Processor processor) {
+    processor.setEndProcess(LocalDateTime.now());
     processorRepository.save(processor);
   }
 

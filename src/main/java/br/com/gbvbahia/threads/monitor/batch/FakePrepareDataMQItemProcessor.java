@@ -22,6 +22,7 @@ public class FakePrepareDataMQItemProcessor implements ItemProcessor<Optional<Pr
 				processor.setDataResult("ODD");
 			}
 			processor.setProcessStatus(ProcessStatus.FINISHED);
+			processor.setProcessResult("Processed");
 		}
 
 		return item;
