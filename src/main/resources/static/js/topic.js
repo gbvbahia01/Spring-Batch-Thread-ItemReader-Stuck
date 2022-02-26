@@ -24,7 +24,7 @@ function connectBatchEnv() {
 
 	stompClient.connect({}, function(frame) {
 		console.log('Connected: ' + frame);
-		console.log('Subscribe: ' + pathTopic);
+		//console.log('Subscribe: ' + pathTopic);
 
 		stompClient.subscribe(pathTopic, function(traffic) {
 			//console.log(pathTopic + traffic);
@@ -87,9 +87,48 @@ function connectProcessorCounter() {
 	});
 }
 
+function connectProcessingTime() {
+
+	var pathTopic = '/topic/processingTime';
+	let stompClient = getStompClient();
+	stompClient.connect({}, function() {
+		stompClient.subscribe(pathTopic, function(traffic) {
+			//console.log(pathTopic + traffic);
+			let json = JSON.parse(traffic.body);
+			updateProcessingTime(json);
+		});
+	});
+}
+
 // ================
 // # Update Page
 // ================
+
+function updateProcessingTime(json) {
+	
+	
+	var classToSet = 'alert alert-primary';
+	let diff = parseInt(json.maxDifference);
+	
+	if (isNaN(diff)) {
+		return;
+	}
+	
+	if (diff < 60) {
+		classToSet = 'alert alert-primary';
+		
+	} else if (diff >= 60 && diff < 120) {
+		classToSet = 'alert alert-warning';
+		
+	} else if (diff < 180) {
+		classToSet = 'alert alert-dark';
+		
+	} else {
+		classToSet = 'alert alert-danger';
+	}
+	$(jq('processingTimeDiv')).prop('class', classToSet);
+	$(jq('processingTimeValue')).text(diff);
+}
 
 function updateBatchEnv(env) {
 	//console.log('Env: ' + env);

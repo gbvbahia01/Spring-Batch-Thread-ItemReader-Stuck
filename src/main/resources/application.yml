@@ -69,6 +69,8 @@ app:
         rate: 30000
       counter:
         rate: 1000
+      minutes:
+        rate: 500
 
 fake:
   scheduler:

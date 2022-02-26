@@ -5,11 +5,10 @@
 
 
 <div th:fragment="alertPage" class="alertPage">
-	<th:block th:if="${alerMsg != null}">
-	<div class="alert alert-primary" role="alert" style="width: 100%">
- 			 <span th:text="${alerMsg}" th:remove="tag">title</span>
+	<div id="processingTimeDiv" class="alert alert-primary" role="alert" style="width: 100%">
+			<span th:text="#{processingTime}" th:remove="tag">Processing Time:</span>
+ 			<span id="processingTimeValue" >0</span>
 	</div>
-	</th:block>
 </div>
 
 <div th:fragment="legendAndTooltip(legend, tooltip)" class="container-sm">

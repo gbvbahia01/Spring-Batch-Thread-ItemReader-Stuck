@@ -14,6 +14,7 @@ import br.com.gbvbahia.threads.monitor.dto.BatchModeController;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.dto.ProcessorDTO;
 import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
+import br.com.gbvbahia.threads.monitor.event.MaxDifferenceBetweenCreatedAndFinishedEvent;
 import br.com.gbvbahia.threads.monitor.event.ProcessorCounterEvent;
 import br.com.gbvbahia.threads.monitor.model.Processor;
 import br.com.gbvbahia.threads.monitor.persistence.repository.ProcessorRepository;
@@ -35,20 +36,6 @@ public class ProcessorService {
   private final ModelMapper modelMapper;
   private final ProcessorRepository processorRepository;
 
-  @Transactional(propagation = Propagation.REQUIRED)
-  public ProcessorDTO startNewProcess(ProcessorDTO dto) {
-
-    Processor processor =
-        Processor.builder().dataToProcess(dto.getDataToProcess()).name(dto.getName())
-            .urlToCall(dto.getUrlToCall()).processStatus(ProcessStatus.WAITING).build();
-
-    Processor saved = processorRepository.save(processor);
-    log.trace("Processor saved:{}", saved);
-
-    return modelMapper.map(saved, ProcessorDTO.class);
-
-  }
-
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Optional<Processor> findNextToBeProcessed() {
 
@@ -66,6 +53,20 @@ public class ProcessorService {
     processorRepository.save(toProcess);
 
     return Optional.of(toProcess);
+
+  }
+  
+  @Transactional(propagation = Propagation.REQUIRED)
+  public ProcessorDTO startNewProcess(ProcessorDTO dto) {
+
+    Processor processor =
+        Processor.builder().dataToProcess(dto.getDataToProcess()).name(dto.getName())
+            .urlToCall(dto.getUrlToCall()).processStatus(ProcessStatus.WAITING).build();
+
+    Processor saved = processorRepository.save(processor);
+    log.trace("Processor saved:{}", saved);
+
+    return modelMapper.map(saved, ProcessorDTO.class);
 
   }
 
@@ -107,8 +108,18 @@ public class ProcessorService {
     
   }
   
+  @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
   public Integer countByStatusWaiting() {
     return processorRepository.countByProcessStatus(ProcessStatus.WAITING).intValue();
+  }
+  
+  @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+  public void maxDiferenceBetweenCreatedAndFinishedEvent() {
+    Long maxDifference = processorRepository.maxDiferenceBetweenCreatedAndFinished();
+    
+    applicationEventPublisher.publishEvent(
+        MaxDifferenceBetweenCreatedAndFinishedEvent.builder().maxDifference(maxDifference)
+        .build());
   }
 
   public void changeReadMode(BatchItemReaderMode readModeTo) {

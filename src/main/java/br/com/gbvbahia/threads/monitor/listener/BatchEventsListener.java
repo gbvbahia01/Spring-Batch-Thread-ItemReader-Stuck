@@ -9,6 +9,7 @@ import br.com.gbvbahia.threads.monitor.dto.TaskExecutionDTO;
 import br.com.gbvbahia.threads.monitor.event.BatchReadModeChangedEvent;
 import br.com.gbvbahia.threads.monitor.event.BatchTaskExecutorInfoEvent;
 import br.com.gbvbahia.threads.monitor.event.JobStartEndEvent;
+import br.com.gbvbahia.threads.monitor.event.MaxDifferenceBetweenCreatedAndFinishedEvent;
 import br.com.gbvbahia.threads.monitor.event.ProcessorCounterEvent;
 import lombok.RequiredArgsConstructor;
 
@@ -55,5 +56,11 @@ public class BatchEventsListener {
   @EventListener
   public void processorCounterListener(ProcessorCounterEvent event) {
     simpMessagingTemplate.convertAndSend("/topic/countProcess", event);
+  }
+  
+  
+  @EventListener
+  public void MaxDifferenceBetweenCreatedAndFinishedListener(MaxDifferenceBetweenCreatedAndFinishedEvent event) {
+    simpMessagingTemplate.convertAndSend("/topic/processingTime", event);
   }
 }

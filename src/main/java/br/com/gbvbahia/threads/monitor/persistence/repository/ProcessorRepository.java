@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import br.com.gbvbahia.threads.monitor.dto.ProcessStatus;
 import br.com.gbvbahia.threads.monitor.model.Processor;
@@ -21,4 +22,8 @@ public interface ProcessorRepository extends JpaRepository<Processor, Long> {
   List<Processor> findByProcessStatusAndUpdatedAtBefore(ProcessStatus processStatus, LocalDateTime updatedAt);
   
   Integer countByProcessStatus(ProcessStatus processStatus);
+  
+  @Query(nativeQuery = true,
+         value = "SELECT EXTRACT(SECOND FROM (end_at - created_at)) AS difference FROM PROCESSOR where PROCESS_STATUS = 'FINISHED' order by id desc limit 1")
+  Long maxDiferenceBetweenCreatedAndFinished();
 }
