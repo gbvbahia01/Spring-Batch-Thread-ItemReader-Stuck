@@ -53,7 +53,7 @@ Summing up: the microservice needs to be capable to send 200 products informatio
 ### My Simple Idea
    1. Create an endpoint to save the all requests coming up in a table.
    2. Create a Spring Batch Job to read from this table, process the product information and send to the MQ. 
-   3. (**Here is the catch**)-> To meet the requirement number 4 on [The big picture](#The Big Picture) I will need to control the ItemReader my self.  
+   3. (**Here is the catch**)-> To meet the requirement number 4 on [The big picture](The Big Picture) I will need to control the ItemReader my self.  
 
 Why not? 
    1. Spring Batch is easy to deal with concurrency situation.
