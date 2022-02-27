@@ -93,8 +93,8 @@ And a service can control the transaction, like ProcessorService
 When _findNextToBeProcessed()_ method returns the row is changed to PROCESSING status and is not locked anymore.
 
 ###### MongoDB
-I did the environment pod block in MongoDB calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
-Changing the status as in _findNextToBeProcessed()_ JPA. 
+In MongoDb the same thing can be achieved by calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
+Changing the status as presented in _findNextToBeProcessed()_ JPA. 
 
 ### TEST Environment 
 After all implementation is time to test. I pull up my project in TEST environment and start to send requests.
