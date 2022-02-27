@@ -12,6 +12,21 @@ The framework works as expected and this project is trying to make you to unders
 
 **This is NOT a tool that you plug in and see your Spring Batch threads processing.**
 
+### Invite
+I invite you to download and run this project and continue reading this text to understand the simulation made.
+
+##### What You Need To Run
+   1. Java JDK 11
+   2. Maven  
+
+This project use H2, in memory database. No database set up is necessary.   
+The port used is 8080. If you need to change you must do in _application.yml_ in resources folder.   
+After download execute: 
+```
+mvn spring-boot:run
+```   
+Open a browser and go to: http://localhost:8080/   
+
 ### How This Project Can Help You 
 Understand how to set up your own ItemReader to avoid get thread reader stuck.
 
