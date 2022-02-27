@@ -105,13 +105,15 @@ This application starts with the same scenario I got in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
 #### This image shows that:
-##### Environment Mode
+> Environment Mode   
+
 This is the period and amount of request received on the endpoint.
 The endpoint that populate the table that Spring Batch will read.
    1. TEST, TestAmountEnvironment, sends 60 requests each 10 seconds.  
    2. PROD, ProdAmountEnvironment, the amount and period are random, but if it gets the maximum speed of amount, that is 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.    
 
-##### Job Reader Mode
+> Job Reader Mode
+
 This is **the key of the problem**. Changes here will define what type of _ItemReaderMode_ will be used on _ProcessorItemReader_.
    1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
    2. NEVER_NULL When an ItemReader does NOT matter if a process was found or not, it will *never* return NULL, but an Optional empty.
