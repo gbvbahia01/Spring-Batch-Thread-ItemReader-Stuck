@@ -53,7 +53,7 @@ Summing up: the microservice needs to be capable to send 200 products informatio
 ### My Simple Idea
    1. Create an endpoint to save the all requests coming up in a table.
    2. Create a Spring Batch Job to read from this table, process the product information and send to the MQ. 
-   3. (**Here is the catch**)-> To meet the requirement number 4 on [The big picture](The Big Picture) I will need to control the ItemReader my self.  
+   3. (**Here is the catch**)-> To meet the requirement number 4 on [The Big Picture](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-big-picture) I will need to control the ItemReader my self.  
 
 Why not? 
    1. Spring Batch is easy to deal with concurrency situation.
@@ -122,7 +122,7 @@ Keeping this in mind: to a Job finish is necessary that all threads running retu
    2. NEVER_NULL If Reader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
    3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the finished until the reader returns NULL.
 
-Here we are back to the [The Main Concern](#The Main Concern):
+Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-main-concern):
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
 As we can see in TEST environment we have 60 request each 10 seconds, the batch process the ten and start to return null. Giving time to the Job finish.
