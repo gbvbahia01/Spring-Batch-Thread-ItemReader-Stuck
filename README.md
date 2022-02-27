@@ -45,10 +45,10 @@ This process requires three steps:
    1. Get more information about the product in another microservice.
    2. Define the type of product when get the information.
    3. Send to a MQ.   
-   4. Needs to run concurrently. More than one pod at same time on same database.
+   4. Needs to run concurrently. More than one pod at same time reading and changing the same database.
 
 This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.   
-So the microservice needs to be capable to send 200 products information to MQ per minute.   
+Summing up: the microservice needs to be capable to send 200 products information to MQ per minute.   
 
 ### My Simple Idea
    1. Create an endpoint to save the request in a table
