@@ -104,7 +104,7 @@ The goal of 200 information per minute was achieved easily.
 This application starts with the same scenario I got in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
-This image shows that:
+> This image shows that:
 ##### Environment Mode
 This is the period and amount of request received on the endpoint.
 The endpoint that populate the table that Spring Batch will read.
