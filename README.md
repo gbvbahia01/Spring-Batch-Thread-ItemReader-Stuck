@@ -111,7 +111,7 @@ The problem was in PROD environment. The microservice clients does not know abou
 Imagine that the clients stop fo while to send Jobs, enough time to 5 ItemReader return null, and start to send a lot again.
 Because of that if the Job started with the limit of 10 threads, now is limited to 5. Spring Batch will not replace that 5 threads finished and the Job has 50% less processing power.
 Because of that whe have the Thread Stuck Job:
-![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_stuck.png)
+![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/thread_stuck.png)
 
 ##### Different results in different machines
 I ran this application in two different machines. The first one TEST was never stuck.
