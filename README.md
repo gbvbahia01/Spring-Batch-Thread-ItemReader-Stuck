@@ -55,7 +55,7 @@ Summing up: the microservice needs to be capable to send 200 products informatio
    2. Create a Spring Batch Job to read from this table, process the product information and send to the MQ. 
    3. (**Here is the catch**)-> To meet the requirement number 4 on [The Big Picture](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-big-picture) I will need to control the ItemReader my self.  
 
-Why not? 
+Why should I use Spring Batch? 
    1. Spring Batch is easy to deal with concurrency situation.
    2. The ItemReader, CompositeProcessor and ItemWriter makes easy to split the work in small classes with one responsibility.
    3. Easy to increase the threads amount in order to send the goal of 200 information per minute. 
