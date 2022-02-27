@@ -61,6 +61,7 @@ Why should I use Spring Batch?
    3. Easy to increase the threads amount in order to send the goal of 200 information per minute. 
    4. And all [here](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#springBatchUsageScenarios) on Spring Batch documentation.
 
+### Some Technical Information 
 #### How to control the ItemReader in the same application running in multiples pods
 ###### JPA
 Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event:
