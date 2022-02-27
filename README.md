@@ -15,7 +15,7 @@ This project is NOT trying to prove any type of bug or problem with Spring or Sp
 The framework works as expected and this project is trying to make you to understand how expected it is.
 
 ### The main concern
-When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you read:
+When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you read:   
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._      
 What this impact in the Job process?      
 In my case, because I don't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
