@@ -30,7 +30,7 @@ Open a browser and go to: http://localhost:8080/
 ### How This Project Can Help You 
 Understand how to set up your own ItemReader to avoid get thread reader stuck.
 
-You also can use to simulate a Spring Batch application that you created changing the _CfgProcessorJob (stepExecuteProcessor)_ like yours and simulate your Job reality.
+You also can use to simulate a Spring Batch application that you created changing the _CfgProcessorJob (stepExecuteProcessor)_ like yours and simulate your Job reality.   
 As example: try to remove the _throttleLimit_ on the Step and see what will happen with the *Threads Pool Info*. 
 
 ### The Main Concern
