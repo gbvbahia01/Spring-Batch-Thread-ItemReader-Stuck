@@ -84,6 +84,39 @@ The goal of 200 information per minute was achieved easily.
 This application starts with the same scenario I got in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
+This image shows that:
+##### Environment Mode
+This is the period and amount of request received on the endpoint.
+The endpoint that populate the table that Spring Batch will read.
+   1. TEST, TestAmountEnvironment, sends 60 requests each 10 seconds.  
+   2. PROD, ProdAmountEnvironment, the amount and period are random, but if it gets the maximum speed of amount, that is 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.    
+
+##### Job Reader Mode
+This is **the key of the problem**. Changes here will define what type of _ItemReaderMode_ will be used on _ProcessorItemReader_.
+   1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
+   2. NEVER_NULL When an ItemReader does NOT matter if a process was found or not, it will *never* return NULL, but an Optional empty.
+   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and when get the limit all threads will return NULL on the reader.
+
+###### Impact each of _ItemReaderMode_ has on the Job
+Keeping this in mind: to a Job finish is necessary that all threads running return NULL on ItemReader
+   1. RETURN_NULL When a Reader returns NULL Spring Batch will not replace that thread. Basically this means that if the maximum amount of thread starts with 10, now is 9.  
+   2. NEVER_NULL If Reader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
+   3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the finished until the reader returns NULL.
+
+Here we are back to the [The Main Concern](#The Main Concern):
+_When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
+
+As we can see in TEST environment we have 60 request each 10 seconds, the batch process the ten and start to return null. Giving time to the Job finish.
+The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.
+Imagine that the clients stop fo while to send Jobs, enough time to 5 ItemReader return null, and start to send a lot again.
+Because of that if the Job started with the limit of 10 threads, now is limited to 5. Spring Batch will not replace that 5 threads finished and the Job has 50% less processing power.
+Because of that whe have the Thread Stuck Job:
+![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_stuck.png)
+
+##### Different results in different machines
+I ran this application in two different machines. The first one TEST was never stuck.
+Testing in another machine sometimes the thread stuck problem happened on TEST as PROD.  
+When the team test did all tests in TEST and QA, unfortunately, we never had the PROD situation.
 
 ### H2 Database (In memory)
 
