@@ -81,6 +81,8 @@ After all implementation is time to test. I pull up my project in TEST environme
 Testing multiples scenarios, with one pod, 2 and 3 pods. In all cases we do NOT have any problem.
 The goal of 200 information per minute was achieved easily.
 
+This application starts with the same scenario I got in TEST:
+![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
 
 ### H2 Database (In memory)
