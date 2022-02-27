@@ -66,12 +66,12 @@ Why should I use Spring Batch?
 ###### JPA
 Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event:
 something like Interface ProcessorRepository:
-```
+```java
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
 ```
 And a service can control the transaction, like ProcessorService
-```
+```java
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public Optional<Processor> findNextToBeProcessed() {
 
