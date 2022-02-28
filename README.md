@@ -87,7 +87,7 @@ _When the ItemReader has exhausted the items it can provide, it indicates this b
 What this impact in the Job process?      
 In my case, because I don't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
 
-### My Simple Idea
+### My Idea To Deal With The Big Picture
    1. Create an endpoint to save the all requests coming up in a table.
    2. Create a Spring Batch Job to read from this table, process the product information and send to the MQ. 
    3. (**Here is the catch**)-> To meet the requirement number 4 on [The Big Picture](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-big-picture) I will need to control the ItemReader my self.  
