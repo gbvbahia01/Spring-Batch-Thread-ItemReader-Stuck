@@ -82,10 +82,8 @@ Is  the last Jobs execution. Pay attention on Status column.
 
 On the top you see the time took to process the last item processed. Cannot take more than 120 seconds. 
 
-### How This Project Can Help You 
-Understand how to set up your own ItemReader to avoid getting thread reader stuck.
-
-You also can use to simulate a Spring Batch application that you created changing the _CfgProcessorJob (stepExecuteProcessor)_ like yours and simulate your Job reality.   
+### How This Project Is About 
+Understand how to set up your own ItemReader to avoid getting the problem that I named: **Thread ItemReader Stuck**.
 
 ### The Main Concern
 When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you have:   
