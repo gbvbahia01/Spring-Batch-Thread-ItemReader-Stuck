@@ -78,6 +78,10 @@ Is  the last Jobs execution. Pay attention on Status column.
    1. Started mens that the Job is running now.
    2. Finished means that the last Job is finished and a new one is not started yet.
 
+> Processing Time
+
+On the top you see the time took to process the last item processed. Cannot take more than 120 seconds. 
+
 ### How This Project Can Help You 
 Understand how to set up your own ItemReader to avoid getting thread reader stuck.
 
