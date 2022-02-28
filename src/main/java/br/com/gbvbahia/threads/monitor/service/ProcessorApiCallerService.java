@@ -16,7 +16,7 @@ public class ProcessorApiCallerService {
 		
 		try {
 			
-			Thread.sleep(faker.number().numberBetween(250, 500));
+			Thread.sleep(faker.number().numberBetween(250, 350));
 			
 		} catch (Exception e) {
 			log.error("Error on thread sleeping", e);
