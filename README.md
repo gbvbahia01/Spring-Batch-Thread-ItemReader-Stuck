@@ -6,6 +6,8 @@ A project that shows the impact of a customized ItemReader can have on Spring Ba
 ### What This Project is About
 I made this project in order to show, in an easy way, a problem that I had when I created my own ItemReader.   
 
+A simulator that you can set up a Spring Batch Step and see the amount of threads working, the time taking to process and how big the amount of process can be as the time is passing.
+
 ### What This Project is NOT About
 This project is NOT trying to prove any type of bug or problem with Spring or Spring Batch.     
 The framework works as expected and this project is trying to make you to understand how expected it is.
@@ -25,7 +27,44 @@ After download execute:
 ```
 mvn spring-boot:run
 ```   
-Open a browser and go to: http://localhost:8080/   
+Open a browser and go to: http://localhost:8080/      
+Wait up 1 minute to a Batch Job starts.   
+What you will see:
+![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
+> Environment Mode
+
+Behind the scenes, in fake package, I created a request process simulator that defines the period and amount of request received on the endpoint process request.   
+Is the endpoint that populate the table that Spring Batch will read.
+   1. TEST, TestAmountEnvironment.class, sends 60 requests each 10 seconds.
+   2. PROD, ProdAmountEnvironment.class, the amount and period are random, but if it gets the maximum amount, that are 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.
+
+> Job Reader Mode
+
+In the _threads.monitor.batch_ package is where I created all Batch classes. The ItemReader, _ProcessorItemReader_, has a List of _ItemReaderMode_.    
+Change this menu will make the Job to restart and then ItemReader will have the selected behavior.
+   1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
+   2. NEVER_NULL Does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
+   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
+
+> Threads Pool Info
+
+You can see on the fly the setup of _ThreadPoolTaskExecutor_ on the class _CfgProcessorJob_.
+   1. Yml Threads: amount of threads defined on application.yml (app.batch.threads.amount)
+   2. Max Pool Size and Pool Size is defined as properties on _ThreadPoolTaskExecutor_
+   3. Active Count: Amount of threads working at the moment on _ThreadPoolTaskExecutor_ 
+
+> Process Status
+
+The chart represents the queue to process on database. 
+   1. Red is waiting to process.
+   2. Orange is executing the processing now.
+   3. Green is process finished.
+
+> Job Execution Status
+
+Is  the last Jobs execution. Pay attention on Status column. 
+   1. Started mens that the Job is running now.
+   2. Finished means that the last Job is finished and a new one is not started yet.
 
 ### How This Project Can Help You 
 Understand how to set up your own ItemReader to avoid get thread reader stuck.
@@ -98,10 +137,10 @@ Changing the status as presented in _findNextToBeProcessed()_ JPA.
 
 ### TEST Environment 
 After all implementation is time to test. I pull up my project in TEST environment and start to send requests.   
-Testing multiples scenarios, with 1, 2 and 3 pods. In all cases we do NOT have any problem.   
+Testing multiples scenarios, with 1, 2 and 3 pods. In all cases we did NOT have any problem.   
 The goal of 200 information per minute was achieved easily.   
 
-This application starts with the same scenario I got in TEST:
+This application starts with the same scenario I had in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
 #### This image shows that:
@@ -109,15 +148,15 @@ This application starts with the same scenario I got in TEST:
 
 This is the period and amount of request received on the endpoint.
 The endpoint that populate the table that Spring Batch will read.
-   1. TEST, TestAmountEnvironment, sends 60 requests each 10 seconds.  
-   2. PROD, ProdAmountEnvironment, the amount and period are random, but if it gets the maximum speed of amount, that is 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.    
+   1. TEST, TestAmountEnvironment.class, sends 60 requests each 10 seconds.  
+   2. PROD, ProdAmountEnvironment.class, the amount and period are random, but if it gets the maximum amount, that are 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.    
 
 > Job Reader Mode
 
 This is **the key of the problem**. Changes here will define what type of _ItemReaderMode_ will be used on _ProcessorItemReader_.
    1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
-   2. NEVER_NULL When an ItemReader does NOT matter if a process was found or not, it will *never* return NULL, but an Optional empty.
-   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and when get the limit all threads will return NULL on the reader.
+   2. NEVER_NULL Does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
+   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
 
 ###### Impact each of _ItemReaderMode_ has on the Job
 Keeping this in mind: to a Job finish is necessary that all threads running return NULL on ItemReader

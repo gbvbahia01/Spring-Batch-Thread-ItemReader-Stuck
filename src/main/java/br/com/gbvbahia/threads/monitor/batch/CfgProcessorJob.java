@@ -82,7 +82,7 @@ public class CfgProcessorJob {
 
     return ProcessorItemReader.builder()
         .batchItemReaderMode(BatchItemReaderMode.valueOf(itemReaderMode))
-        .enviroment(Environment.valueOf(itemEnvironment))
+        .environment(Environment.valueOf(itemEnvironment))
         .processorService(processorService).build();
   }
 

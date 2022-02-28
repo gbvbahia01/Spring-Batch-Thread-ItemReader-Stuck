@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
 
   private final BatchItemReaderMode batchItemReaderMode;
-  private final Environment enviroment;
+  private final Environment environment;
   private final ProcessorService processorService;
   private final List<ItemReaderMode> itemsMode = new ArrayList<>();
   
@@ -54,13 +54,13 @@ public class ProcessorItemReader implements ItemReader<Optional<Processor>> {
   
   private boolean shouldFinishCurrentJob() {
    
-    return !EnvironmentCurrentController.INSTANCE.getCurrent().equals(enviroment)
+    return !EnvironmentCurrentController.INSTANCE.getCurrent().equals(environment)
         || !BatchModeController.INSTANCE.getBatchMode().equals(batchItemReaderMode);
   }
 
 
   @BeforeStep
-  public void retrieveInterstepData(StepExecution stepExecution) {
+  public void retrieveInterStepData(StepExecution stepExecution) {
     itemsMode.clear();
     itemsMode.add(new ItemReaderNullMode());
     itemsMode.add(new ItemReaderNeverNullMode());
