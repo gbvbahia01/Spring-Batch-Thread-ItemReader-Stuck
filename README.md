@@ -105,19 +105,19 @@ After all implementation is time to test. I pushed up my project to TEST environ
 Testing multiples scenarios, with 1, 2 and 3 pods. In all cases we did NOT have any problem.   
 The goal of 200 information per minute was achieved easily.   
 
-This application starts with the same scenario I had in TEST:
+This application starts trying to simulate the same scenario I had in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 
 #### This image shows that:
 > Environment Mode   
 
-The simulation request is in TEST mode.
+The simulation request it is TEST mode.
 
 > Job Reader Mode
 
 The ItemReader when does not have anything to process return NULL.   
 
-###### Impact each of _ItemReaderMode_ has on the Job
+#### Impact each of _ItemReaderMode_ has on the Job
 Keeping this in mind: to a Job finish is necessary that all threads running return NULL on ItemReader
    1. RETURN_NULL When a ItemReader returns NULL Spring Batch will not replace that thread. Basically this means that if the maximum amount of thread starts with 10, now is 9.  
    2. NEVER_NULL If ItemReader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
