@@ -6,7 +6,7 @@ A project that shows the impact of a customized ItemReader can have on Spring Ba
 ### What This Project is About
 I made this project in order to show, in an easy way, a problem that I had when I created my own ItemReader.   
 
-A simulator that you can set up a Spring Batch Step and see the amount of threads working, the time taking to process and how big the amount of process can be as the time is passing.
+A simulator that you can set up a Spring Batch Step and see the amount of threads working, the time taking to process and how big the queue waiting to be processed can be as the time is passing.
 
 ### What This Project is NOT About
 This project is NOT trying to prove any type of bug or problem with Spring or Spring Batch.     
