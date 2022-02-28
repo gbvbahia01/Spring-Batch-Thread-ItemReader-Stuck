@@ -99,40 +99,7 @@ Why should I use Spring Batch?
    3. Easy to increase the threads amount in order to send the goal of 200 information per minute. 
    4. And everything else described in the Spring Batch [documentation](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#springBatchUsageScenarios).
 
-### Some Technical Information 
-#### How to control the ItemReader in the same application running in multiples pods
-###### JPA
-Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event:
-something like Interface ProcessorRepository:
-```java
-  @Lock(LockModeType.PESSIMISTIC_WRITE)
-  Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
-```
-And a service can control the transaction, like ProcessorService
-```java
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public Optional<Processor> findNextToBeProcessed() {
-
-    Optional<Processor> nextOpt =
-        processorRepository.findFirstByProcessStatusOrderById(ProcessStatus.WAITING);
-
-    if (nextOpt.isEmpty()) {
-      return nextOpt;
-    }
-    
-    Processor toProcess = nextOpt.get();
-    toProcess.setProcessStatus(ProcessStatus.PROCESSING);
-    toProcess.setStartProcess(LocalDateTime.now());
-    processorRepository.save(toProcess);
-
-    return Optional.of(toProcess);
-  }
-```
-When _findNextToBeProcessed()_ method returns the row is changed to PROCESSING status and is not locked anymore.
-
-###### MongoDB
-In MongoDb the same thing can be achieved by calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
-Changing the status as presented in _findNextToBeProcessed()_ JPA. 
+I describe [Some Technical Information](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#some-technical-information) about deal with pods concurrency by the end of this file. 
 
 ### TEST Environment 
 After all implementation is time to test. I pull up my project in TEST environment and start to send requests.   
@@ -198,6 +165,40 @@ In fact, I believe that after ItemWriter the thread is killed and a new one is c
 Is the reason will se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
 
 
+### Some Technical Information
+#### How to control the ItemReader in the same application running in multiples pods
+###### JPA
+Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event:
+something like Interface ProcessorRepository:
+```java
+  @Lock(LockModeType.PESSIMISTIC_WRITE)
+  Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
+```
+And a service can control the transaction, like ProcessorService
+```java
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
+  public Optional<Processor> findNextToBeProcessed() {
+
+    Optional<Processor> nextOpt =
+        processorRepository.findFirstByProcessStatusOrderById(ProcessStatus.WAITING);
+
+    if (nextOpt.isEmpty()) {
+      return nextOpt;
+    }
+    
+    Processor toProcess = nextOpt.get();
+    toProcess.setProcessStatus(ProcessStatus.PROCESSING);
+    toProcess.setStartProcess(LocalDateTime.now());
+    processorRepository.save(toProcess);
+
+    return Optional.of(toProcess);
+  }
+```
+When _findNextToBeProcessed()_ method returns the row is changed to PROCESSING status and is not locked anymore.
+
+###### MongoDB
+In MongoDb the same thing can be achieved by calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
+Changing the status as presented in _findNextToBeProcessed()_ JPA.
 
 ### To Remove?
 As example: try to remove the _throttleLimit_ on the Step and see what will happen with the *Threads Pool Info*.
