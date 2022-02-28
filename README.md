@@ -14,7 +14,19 @@ The framework works as expected and this project is trying to make you to unders
 
 **This is NOT a tool that you plug in and see your Spring Batch threads processing.**
 
-### Running
+### The Big Picture
+In order to you understand this project is necessary to understand my needs.   
+In my work we have an endpoint that receives a request and process some information.
+This process requires three steps:
+   1. Get more information about the product in another microservice.
+   2. Define the type of product when get the information.
+   3. Send to a MQ.
+   4. Needs to run concurrently. More than one pod at same time reading and changing the same database.
+
+This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.   
+Summing up: each microservice pod running needs to be capable to send 200 products information to MQ per minute.
+
+### Running This Project
 I invite you to download and run this project and continue reading this text to understand the simulation made.
 
 ##### What You Need To Run
@@ -76,17 +88,6 @@ When you read the documentation provided by Spring about the [ItemReader](https:
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._      
 What this impact in the Job process?      
 In my case, because I don't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
-
-### The Big Picture
-In my work we have an endpoint that receives a request and process some information.
-This process requires three steps: 
-   1. Get more information about the product in another microservice.
-   2. Define the type of product when get the information.
-   3. Send to a MQ.   
-   4. Needs to run concurrently. More than one pod at same time reading and changing the same database.
-
-This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.   
-Summing up: each microservice pod running needs to be capable to send 200 products information to MQ per minute.   
 
 ### My Simple Idea
    1. Create an endpoint to save the all requests coming up in a table.
