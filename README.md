@@ -17,13 +17,13 @@ The framework works as expected and this project is trying to make you to unders
 ### The Big Picture
 In order to you understand this project is necessary to understand my needs.   
 In my work we have an endpoint that receives a request and process some information.
-This process requires some steps and a requirement:
+This process requires some steps and some requirements:
    1. Get more information about the product in another microservice.
    2. Define the type of product when get the information.
    3. Send to a MQ.
-   4. Needs to run concurrently. More than one pod at same time reading and changing the same database.
+   * Needs to run concurrently. More than one pod at same time reading and changing the same database.
+   * This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.
 
-This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.   
 Summing up: each microservice pod running needs to be capable to send 200 products information to MQ per minute.
 
 ### Running This Project
