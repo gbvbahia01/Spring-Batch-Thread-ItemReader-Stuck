@@ -150,7 +150,7 @@ After one week I could realize this scenario.
 This first one did not pleasant to me. I do not know the impact of *never* end a Job. As the ItemReader will never return NULL the Job will never end.
 I did not want to have a new problem using this option, and I do not recommend.
 
-### The Solution That Chose
+### The Solution That I Chose
 ###### COUNTER_TO_NULL
 This was the second and last that I found. Is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle completes.
 I defined 10 threads and the limit is working with the amount of waiting process. So after process the amount defined all ItemReader will return null and the Job will finish.   
