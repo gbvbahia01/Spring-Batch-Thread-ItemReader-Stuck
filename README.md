@@ -17,7 +17,7 @@ The framework works as expected and this project is trying to make you to unders
 ### The Big Picture
 In order to you understand this project is necessary to understand my needs.   
 In my work we have an endpoint that receives a request and process some information.
-This process requires three steps:
+This process requires some steps and a requirement:
    1. Get more information about the product in another microservice.
    2. Define the type of product when get the information.
    3. Send to a MQ.
