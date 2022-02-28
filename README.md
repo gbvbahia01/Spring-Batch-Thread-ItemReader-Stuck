@@ -53,9 +53,9 @@ Is the endpoint responsible for populating the table that Spring Batch will read
 
 In the _threads.monitor.batch_ package is where I created all Batch classes. The ItemReader, _ProcessorItemReader_, has a List of _ItemReaderMode_.    
 Change this menu will make the Job to restart and then ItemReader will have the selected behavior.
-   1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
-   2. NEVER_NULL Does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
-   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
+   1. RETURN_NULL:     when an ItemReader does NOT found a process in the _processor_ table will return NULL.
+   2. NEVER_NULL:      does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
+   3. COUNTER_TO_NULL: a static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
 
 > Threads Pool Info
 
