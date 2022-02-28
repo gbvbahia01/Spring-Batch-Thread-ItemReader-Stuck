@@ -45,7 +45,7 @@ What you will see:
 > Environment Mode
 
 Behind the scenes, in fake package, I created a request process simulator that defines the period and amount of request received on the endpoint process request.
-Is the endpoint that populate the table that Spring Batch will read.
+Is the endpoint responsible for populating the table that Spring Batch will read.
    1. TEST, TestAmountEnvironment.class, sends 60 requests each 10 seconds.
    2. PROD, ProdAmountEnvironment.class, the amount and period are random, but if it gets the maximum amount, that are 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.
 
