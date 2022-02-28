@@ -153,9 +153,9 @@ I did not want to have a new problem using this option, and I do not recommend.
 ### The Solution That Chose
 ###### COUNTER_TO_NULL
 This was the second and last that I found. Is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle completes.
-I defined 10 threads and the limit is working with the amount of waiting process. So after process the amount defined all ItemReader will return null and the Job will finish.
-Is important to say here that this not mean that each thread will deal with the same amount.
-In fact, I believe that after ItemWriter the thread is killed and a new one is created.
+I defined 10 threads and the limit is working with the amount of waiting process. So after process the amount defined all ItemReader will return null and the Job will finish.   
+Is important to say here that this not mean that each thread will deal with the same amount.   
+In fact, I believe that after ItemWriter the thread is killed and a new one is created.   
 Is the reason you se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
 
 ### Some Technical Information
