@@ -14,7 +14,7 @@ The framework works as expected and this project is trying to make you to unders
 
 **This is NOT a tool that you plug in and see your Spring Batch threads processing.**
 
-### Invite
+### Running
 I invite you to download and run this project and continue reading this text to understand the simulation made.
 
 ##### What You Need To Run
@@ -55,7 +55,7 @@ You can see on the fly the setup of _ThreadPoolTaskExecutor_ on the class _CfgPr
 
 > Process Status
 
-The chart represents the queue to process on database. 
+This chart represents the queue to process on database. 
    1. Red is waiting to process.
    2. Orange is executing the processing now.
    3. Green is process finished.
@@ -67,13 +67,12 @@ Is  the last Jobs execution. Pay attention on Status column.
    2. Finished means that the last Job is finished and a new one is not started yet.
 
 ### How This Project Can Help You 
-Understand how to set up your own ItemReader to avoid get thread reader stuck.
+Understand how to set up your own ItemReader to avoid getting thread reader stuck.
 
 You also can use to simulate a Spring Batch application that you created changing the _CfgProcessorJob (stepExecuteProcessor)_ like yours and simulate your Job reality.   
-As example: try to remove the _throttleLimit_ on the Step and see what will happen with the *Threads Pool Info*. 
 
 ### The Main Concern
-When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you read:   
+When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you have:   
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._      
 What this impact in the Job process?      
 In my case, because I don't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
@@ -87,7 +86,7 @@ This process requires three steps:
    4. Needs to run concurrently. More than one pod at same time reading and changing the same database.
 
 This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.   
-Summing up: the microservice needs to be capable to send 200 products information to MQ per minute.   
+Summing up: each microservice pod running needs to be capable to send 200 products information to MQ per minute.   
 
 ### My Simple Idea
    1. Create an endpoint to save the all requests coming up in a table.
@@ -98,7 +97,7 @@ Why should I use Spring Batch?
    1. Spring Batch is easy to deal with concurrency situation.
    2. The ItemReader, CompositeProcessor and ItemWriter makes easy to split the work in small classes with one responsibility.
    3. Easy to increase the threads amount in order to send the goal of 200 information per minute. 
-   4. And all [here](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#springBatchUsageScenarios) on Spring Batch documentation.
+   4. And everything else described in the Spring Batch [documentation](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#springBatchUsageScenarios).
 
 ### Some Technical Information 
 #### How to control the ItemReader in the same application running in multiples pods
@@ -198,10 +197,17 @@ Is important say here that this not mean that each thread will deal with 20.
 In fact, I believe that after ItemWriter the thread is killed and a new one is created.
 Is the reason will se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
 
+
+
+### To Remove?
+As example: try to remove the _throttleLimit_ on the Step and see what will happen with the *Threads Pool Info*.
+
 ##### (TEST) Different results in different machines
 I ran this application in two different machines. The first one TEST was never stuck.
 Testing in another machine sometimes the thread stuck problem happened on TEST as PROD.  
 When the team test did all tests in TEST and QA, unfortunately, we never had the PROD situation.
+
+
 
 ### H2 Database (In memory)
 
