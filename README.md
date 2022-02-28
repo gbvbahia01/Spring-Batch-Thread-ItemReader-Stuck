@@ -126,11 +126,11 @@ Keeping this in mind: to a Job finish is necessary that all threads running retu
 Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-main-concern):
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
-As we can see in TEST environment we have 60 request each 10 seconds, the batch process the 60 and start to return null. Giving time to the Job finish.
-The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.
-Imagine that the clients stop a while sending Jobs, enough time to 9 ItemReader return null, and start to send a lot of requests again.
-Because of that if the Job started with the limit of 10 threads, now is limited to 1. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.
-Because of that whe have the Thread Stuck Job:
+As we can see in TEST environment we have 60 request each 10 seconds, the batch process the 60 and start to return null. Giving time to the Job finish.   
+The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.   
+Imagine that the clients stop a while sending Jobs, enough time to 9 ItemReader return null, and start to send a lot of requests again.   
+Because of that if the Job started with the limit of 10 threads, now is limited to 1. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.   
+Causing the Thread Stuck Job:
 ![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/thread_stuck.png)
 
 The impact is easily seeing in this image:
