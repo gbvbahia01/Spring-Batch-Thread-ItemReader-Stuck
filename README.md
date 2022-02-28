@@ -4,10 +4,9 @@ A project that shows the impact of a customized ItemReader can have on Spring Ba
 ##### Spring Batch [Reference Documentation](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html)
 
 ### What This Project is About
-I made this project in order to show, in an easy way, a problem that I had when I created my own ItemReader.   
-
-A simulator that you can set up a Spring Batch Step and see the amount of threads working, the time taking to process and how big the queue waiting to be processed can be as the time is passing.
-
+I made this project in order to show, in an easy way, a problem that I had when I created my own ItemReader.  
+The problem that I named: **Thread ItemReader Stuck**.   
+ 
 ### What This Project is NOT About
 This project is NOT trying to prove any type of bug or problem with Spring or Spring Batch.     
 The framework works as expected and this project is trying to make you to understand how expected it is.
@@ -81,9 +80,6 @@ Is  the last Jobs execution. Pay attention on Status column.
 > Processing Time
 
 On the top you see the time took to process the last item processed. Cannot take more than 120 seconds. 
-
-### How This Project Is About 
-Understand how to set up your own ItemReader to avoid getting the problem that I named: **Thread ItemReader Stuck**.
 
 ### The Main Concern
 When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you have:   
