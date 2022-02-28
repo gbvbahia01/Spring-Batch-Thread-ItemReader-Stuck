@@ -101,7 +101,7 @@ Why should I use Spring Batch?
 I describe [Some Technical Information](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#some-technical-information) about deal with pods concurrency by the end of this file. 
 
 ### TEST Environment 
-After all implementation is time to test. I pushed up my project in TEST environment and start to send requests.   
+After all implementation is time to test. I pushed up my project to TEST environment and start to send requests.   
 Testing multiples scenarios, with 1, 2 and 3 pods. In all cases we did NOT have any problem.   
 The goal of 200 information per minute was achieved easily.   
 
