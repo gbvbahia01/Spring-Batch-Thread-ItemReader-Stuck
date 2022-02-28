@@ -112,44 +112,38 @@ This application starts with the same scenario I had in TEST:
 #### This image shows that:
 > Environment Mode   
 
-This is the period and amount of request received on the endpoint.
-The endpoint that populate the table that Spring Batch will read.
-   1. TEST, TestAmountEnvironment.class, sends 60 requests each 10 seconds.  
-   2. PROD, ProdAmountEnvironment.class, the amount and period are random, but if it gets the maximum amount, that are 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.    
+The simulation request is in TEST mode.
 
 > Job Reader Mode
 
-This is **the key of the problem**. Changes here will define what type of _ItemReaderMode_ will be used on _ProcessorItemReader_.
-   1. RETURN_NULL When an ItemReader does NOT found a process in the _processor_ table will return NULL.
-   2. NEVER_NULL Does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
-   3. COUNTER_TO_NULL A static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
+The ItemReader when does not have anything to process return NULL.   
 
 ###### Impact each of _ItemReaderMode_ has on the Job
 Keeping this in mind: to a Job finish is necessary that all threads running return NULL on ItemReader
-   1. RETURN_NULL When a Reader returns NULL Spring Batch will not replace that thread. Basically this means that if the maximum amount of thread starts with 10, now is 9.  
-   2. NEVER_NULL If Reader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
-   3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the finished until the reader returns NULL.
+   1. RETURN_NULL When a ItemReader returns NULL Spring Batch will not replace that thread. Basically this means that if the maximum amount of thread starts with 10, now is 9.  
+   2. NEVER_NULL If ItemReader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
+   3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the finished until the ItemReader returns NULL.
 
 Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-main-concern):
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
-As we can see in TEST environment we have 60 request each 10 seconds, the batch process the ten and start to return null. Giving time to the Job finish.
+As we can see in TEST environment we have 60 request each 10 seconds, the batch process the 60 and start to return null. Giving time to the Job finish.
 The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.
-Imagine that the clients stop fo while to send Jobs, enough time to 9 ItemReader return null, and start to send a lot again.
-Because of that if the Job started with the limit of 10 threads, now is limited to 5. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.
+Imagine that the clients stop a while sending Jobs, enough time to 9 ItemReader return null, and start to send a lot of requests again.
+Because of that if the Job started with the limit of 10 threads, now is limited to 1. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.
 Because of that whe have the Thread Stuck Job:
 ![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/thread_stuck.png)
 
 The impact is easily seeing in this image:
    1. Time Processing is 66 seconds and will increase forever.
    2. The amount of threads is one. Is not enough to deal with all request waiting. It is getting in more than getting out.
-   3. The current started Job, Id 13, will run forever because the left thread will never return null and the Spring Batch will replace te last finished thread always until ItemReader return NULL. 
-   4. The red amount, waiting, on the chart is a lot. 
+   3. The current started Job, Id 13, will run forever because the left thread will never return null and the Spring Batch will replace te last finished thread always until the last ItemReader return NULL. 
+   4. The red amount, waiting status, on the chart is a lot. 
 
 ##### The Roll Back
 When I got this problem on production, some hours after deploy, I did not realize this situation that I wrote here.
-I tried to run 3 pods at same time and that could NOT deal with scenario that we had in production.
-Roll back to stop to use the new microservice was made. And I started to dig into the microservice trying to understand what was happening.
+I tried to run 3 pods at same time and that could NOT deal with this problematic scenario.
+A roll back to stop working with the new microservice was made. And I started to dig into the microservice trying to understand what was happening.
 After one week I could realize this scenario.
 
 ##### Two Solution
@@ -158,12 +152,11 @@ This first one did not pleasant to me. I do not know the impact of *never* end a
 I did not want to have a new problem using this option, and I do not recommend.
 
 ###### COUNTER_TO_NULL
-This was the second and last that I found. Is easy to control, as I did here in this application demo, and the Job life cycle completes.
-I defined 10 threads and each one must work with 20 process. So after 200 process returned all ItemReader will return null and the Job will and.
-Is important say here that this not mean that each thread will deal with 20.
+This was the second and last that I found. Is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle completes.
+I defined 10 threads and the limit is working with the amount of waiting process. So after process the amount defined all ItemReader will return null and the Job will and.
+Is important say here that this not mean that each thread will deal with the same amount.
 In fact, I believe that after ItemWriter the thread is killed and a new one is created.
-Is the reason will se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
-
+Is the reason you se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
 
 ### Some Technical Information
 #### How to control the ItemReader in the same application running in multiples pods
@@ -199,16 +192,6 @@ When _findNextToBeProcessed()_ method returns the row is changed to PROCESSING s
 ###### MongoDB
 In MongoDb the same thing can be achieved by calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
 Changing the status as presented in _findNextToBeProcessed()_ JPA.
-
-### To Remove?
-As example: try to remove the _throttleLimit_ on the Step and see what will happen with the *Threads Pool Info*.
-
-##### (TEST) Different results in different machines
-I ran this application in two different machines. The first one TEST was never stuck.
-Testing in another machine sometimes the thread stuck problem happened on TEST as PROD.  
-When the team test did all tests in TEST and QA, unfortunately, we never had the PROD situation.
-
-
 
 ### H2 Database (In memory)
 
