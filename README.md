@@ -139,13 +139,13 @@ The impact is easily seeing in this image:
    3. The current started Job, Id 13, will run forever because the left thread will never return null and the Spring Batch will replace te last finished thread always until the last ItemReader return NULL. 
    4. The red amount, waiting status, on the chart is a lot. 
 
-##### The Roll Back
+#### The Roll Back
 When I got this problem on production, some hours after deploy, I did not realize this situation that I wrote here.
 I tried to run 3 pods at same time and that could NOT deal with this problematic scenario.
 A roll back to stop working with the new microservice was made. And I started to dig into the microservice trying to understand what was happening.
 After one week I could realize this scenario.
 
-##### Two Solution
+#### Two Solutions
 ###### NEVER_NULL
 This first one did not pleasant to me. I do not know the impact of *never* end a Job. As the reader will never return NULL the Job will never end.
 I did not want to have a new problem using this option, and I do not recommend.
