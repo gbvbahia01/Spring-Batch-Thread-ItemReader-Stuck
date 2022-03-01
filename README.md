@@ -127,17 +127,17 @@ Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
 As we can see in the TEST environment, we have 60 requests per 10 seconds. The batch process the 60 and starts to return null. Giving time to finish the Job.
-The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.   
-Imagine that the clients stop a while sending Jobs, enough time to 9 ItemReader return null, and start to send a lot of requests again.   
-Because of that if the Job started with the limit of 10 threads, now is limited to 1. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.   
-Causing the Thread Stuck Job:
+The problem was in the PROD environment. The request clients do not know about sending every 10 seconds; they send any time they want.   
+Imagine that the clients stop sending jobs for a while, giving enough time to 9 ItemReader return null, and start sending a lot of requests again.   
+Because of that, if the Job started with a limit of 10 threads, it is now limited to 1. Spring Batch will not replace those 9 threads, and the Job has 90% less processing power.   
+What is the Root Cause of the Thread Stuck Job:
 ![PROD](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/thread_stuck.png)
 
-The impact is easily seeing in this image:
-   1. Time Processing is 66 seconds and will increase forever.
-   2. The amount of threads is one. Is not enough to deal with all request waiting. It is getting in more than getting out.
-   3. The current started Job, Id 13, will run forever because the left thread will never return null and the Spring Batch will replace te last finished thread always until the last ItemReader return NULL. 
-   4. The red amount, waiting status, on the chart is a lot. 
+The impact is easy to see in this image:
+   1. Time processing is 66 seconds and will increase forever.
+   2. One thread is not sufficient. It's not enough to deal with all the requests waiting. It is getting in more than getting out.
+   3. The current started Job, Id 13, will run forever because the remaining thread will never return null and the Spring Batch will replace the last finished thread until the last ItemReader returns NULL. 
+   4. The red number, or "waiting status," on the chart is a lot, and it will never stop increasing.
 
 #### The Roll Back
 When I got this problem on production, some hours after deploy, I did not realize this situation that I wrote here.
