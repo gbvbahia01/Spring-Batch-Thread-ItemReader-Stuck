@@ -26,43 +26,43 @@ This process requires some steps and some requirements:
 Summing up, each microservice pod running needs to be capable of sending 200 products' information to MQ per minute.
 
 ### Running This Project
-I invite you to download and run this project and continue reading this text to understand the simulation made.
+I invite you to download and run this project and continue reading this text to understand the simulation.
 
 ##### What You Need To Run
    1. Java JDK 11
    2. Maven  
 
-This project use H2, in memory database. No database set up is necessary.   
-The port used is 8080. If you need to change you must do in _application.yml_ in resources folder.   
-After download execute: 
+This project uses H2, in memory database. No database set up is necessary.   
+The port used is 8080. If you need to change, you must do in _application.yml_ in resources folder.   
+After downloading, run the command:
 ```
 mvn spring-boot:run
 ```   
 Open a browser and go to: http://localhost:8080/      
-Wait up 1 minute to a Batch Job starts.   
+Wait up to 1 minute for a Batch Job to start.   
 What you will see:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
 > Environment Mode
 
-Behind the scenes, in fake package, I created a request process simulator that defines the period and amount of request received on the endpoint process request.
-Is the endpoint responsible for populating the table that Spring Batch will read.
-   1. TEST, TestAmountEnvironment.class, sends 60 requests each 10 seconds.
-   2. PROD, ProdAmountEnvironment.class, the amount and period are random, but if it gets the maximum amount, that are 3, and the minimal period between requests, that is 0.5 second, will be the same amount per minute as TEST.
+I created a request process simulator in the fake package that defines the period and amount of requests received on the endpoint process request.
+This is the endpoint responsible for populating the table that Spring Batch will read.
+   1. TEST, TestAmountEnvironment.class. It sends 60 requests every 10 seconds.
+   2. PROD, ProdAmountEnvironment.class. The amount and period are random, but if it gets the maximum amount,  which is 3, and the minimal period between requests, which is 0.5 seconds, it will be the same amount per minute as TEST.
 
 > Job Reader Mode
 
-In the _threads.monitor.batch_ package is where I created all Batch classes. The ItemReader, _ProcessorItemReader_, has a List of _ItemReaderMode_.    
-Change this menu will make the Job to restart and then ItemReader will have the selected behavior.
-   1. RETURN_NULL: when an ItemReader does NOT found a process in the _processor_ table will return NULL.
-   2. NEVER_NULL: does NOT matter if ItemReader found a process or not, it will *never* return NULL, but an Optional empty.
-   3. COUNTER_TO_NULL: a static _AtomicInteger_ will count the amount of returns and, when get the limit, all threads will return NULL on the ItemReader.
+In the _threads.monitor.batch_ package is where I created all the batch classes. The ItemReader, _ProcessorItemReader_, has a list of _ItemReaderMode_.    
+If you change this menu, the job will restart and ItemReader will have the selected behavior.
+   1. RETURN_NULL: if an ItemReader cannot find a process in the _processor_ table, it returns NULL.
+   2. NEVER_NULL: it does not matter if ItemReader finds a process or not; it will *never* return NULL, but an Optional empty.
+   3. COUNTER_TO_NULL: a limit of returns is defined and a static _AtomicInteger_ will count the number of returns and, when reached, all threads will return NULL on the ItemReader.
 
 > Threads Pool Info
 
-See real-time performance of _ThreadPoolTaskExecutor_ on the class _CfgProcessorJob_.
-   1. Yml Threads: amount of threads defined on application.yml (app.batch.threads.amount)
-   2. Max Pool Size and Pool Size is defined as fields on _ThreadPoolTaskExecutor_ instance.
-   3. Active Count: Amount of threads working at the moment on _ThreadPoolTaskExecutor_ 
+See the real-time performance of _ThreadPoolTaskExecutor_ in the class _CfgProcessorJob_.
+   1. Yml Threads: the number of threads defined in application.yml (app.batch.threads.amount).
+   2. Max Pool Size and Pool Size are defined as fields on _ThreadPoolTaskExecutor_ instance.
+   3. Active Count: Tte number of threads working at the moment on _ThreadPoolTaskExecutor_ 
 
 > Process Status
 
