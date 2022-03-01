@@ -101,9 +101,9 @@ Why should I use Spring Batch?
 I described [Some Technical Information](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#some-technical-information) about dealing with pod concurrency at the end of this file.
 
 ### TEST Environment 
-After all implementation is time to test. I pushed up my project to TEST environment and start to send requests.   
-Testing multiples scenarios, with 1, 2 and 3 pods. In all cases we did NOT have any problem.   
-The goal of 200 information per minute was achieved easily.   
+After all the implementation, it is time to test. I pushed my project to the TEST environment and started to send requests.     
+Testing multiples scenarios, with 1, 2 and 3 pods. In all cases, we did not have any problems.   
+The goal of sending 200 messages per minute to queue information was easily achieved.
 
 This application starts trying to simulate the same scenario I had in TEST:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
@@ -111,22 +111,22 @@ This application starts trying to simulate the same scenario I had in TEST:
 #### This image shows that:
 > Environment Mode   
 
-The simulation request it is TEST mode.
+The simulation request is in TEST mode.
 
 > Job Reader Mode
 
-The ItemReader when does not have anything to process return NULL.   
+The ItemReader returns NULL when it does not have anything to process.   
 
-#### Impact each of _ItemReaderMode_ has on the Job
-Keeping this in mind: to a Job finish is necessary that all threads running return NULL on ItemReader
-   1. RETURN_NULL When a ItemReader returns NULL Spring Batch will not replace that thread. Basically this means that if the maximum amount of thread starts with 10, now is 9.  
-   2. NEVER_NULL If ItemReader never returns NULL the Job will never end. Spring Batch will create a new Thread to replace the finished thread forever.   
-   3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the finished until the ItemReader returns NULL.
+#### Each ItemReaderMode has an effect on the job.
+Keeping this in mind, to finish a job, it is necessary that all threads running return NULL on ItemReader
+   1. RETURN_NULL when an ItemReader returns NULL, Spring Batch will not replace that thread. Basically, this means that if the maximum number of threads started with 10, now it is 9.  
+   2. NEVER_NULL if ItemReader never returns NULL the Job will never end. The Spring Batch will create a new thread to replace the finished thread forever.   
+   3. COUNTER_TO_NULL Spring Batch will create a new thread to replace the completed one until the ItemReader starts returning NULL.
 
 Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-main-concern):
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
-As we can see in TEST environment we have 60 request each 10 seconds, the batch process the 60 and start to return null. Giving time to the Job finish.   
+As we can see in the TEST environment, we have 60 requests per 10 seconds. The batch process the 60 and starts to return null. Giving time to finish the Job.
 The problem was in PROD environment. The microservice clients does not know about send each 10 seconds, they send any time they want.   
 Imagine that the clients stop a while sending Jobs, enough time to 9 ItemReader return null, and start to send a lot of requests again.   
 Because of that if the Job started with the limit of 10 threads, now is limited to 1. Spring Batch will not replace that 9 threads finished and the Job has 90% less processing power.   
