@@ -1,4 +1,4 @@
-# Spring-Batch-Threads-Monitor
+# Spring-Batch-Thread ItemReader Stuck
 A project that shows the impact of a customized ItemReader can have on Spring Batch Job execution.
 
 ##### Spring Batch [Reference Documentation](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html)
@@ -9,21 +9,21 @@ The problem that I named: **Thread ItemReader Stuck**.
  
 ### What This Project is NOT About
 This project is NOT trying to prove any type of bug or problem with Spring or Spring Batch.     
-The framework works as expected and this project is trying to make you to understand how expected it is.
+The framework works as expected, and this project is trying to make you understand how expected it is.
 
-**This is NOT a tool that you plug in and see your Spring Batch threads processing.**
+**This is NOT a tool that you plug in and see all your threads working.**
 
 ### The Big Picture
-In order to you understand this project is necessary to understand my needs.   
-In my work we have an endpoint that receives a request and process some information.
+In order for you understand this project, is necessary to understand my needs.   
+At work, we have an endpoint that receives a request and processes some information.
 This process requires some steps and some requirements:
    1. Get more information about the product in another microservice.
-   2. Define the type of product when get the information.
-   3. Send to a MQ.
-   * Needs to run concurrently. More than one pod at same time reading and changing the same database.
-   * This flow must be made up 2 minutes after receive the request and the load capacity has to be 200 per minute.
+   2. It will define the type of product when it gets the information.
+   3. Send the product type to a message queue (MQ).
+   * It needs to run concurrently. More than one pod at a time reads and changes the same database.
+   * This flow must be made up within 2 minutes after receiving the request, and the load capacity has to be 200 per minute.
 
-Summing up: each microservice pod running needs to be capable to send 200 products information to MQ per minute.
+Summing up, each microservice pod running needs to be capable of sending 200 products' information to MQ per minute.
 
 ### Running This Project
 I invite you to download and run this project and continue reading this text to understand the simulation made.
