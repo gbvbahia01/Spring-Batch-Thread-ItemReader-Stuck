@@ -89,16 +89,16 @@ In my case, because I didn't take into account the impact of this snippet on the
 
 ### My Idea To Deal With The Big Picture
    1. Create an endpoint to save the all requests coming up in a table.
-   2. Create a Spring Batch Job to read from this table, process the product information and send to the MQ. 
-   3. (**Here is the catch**)-> To meet the requirement number 4 on [The Big Picture](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-big-picture) I will need to implement my own the ItemReader.  
+   2. Create a Spring Batch Job to read from this table, process the product information, and send it to the MQ. 
+   3. (**Here is the catch**)-> To meet requirement number 4 on [The Big Picture](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-big-picture), I will need to implement my own ItemReader.  
 
 Why should I use Spring Batch? 
-   1. Spring Batch is easy to deal with concurrency situation.
-   2. The ItemReader, CompositeProcessor and ItemWriter makes easy to split the work in small classes with one responsibility.
-   3. Easy to increase the threads amount in order to send the goal of 200 information per minute. 
+   1. Concurrency situations are easy to deal with in Spring Batch. I can say it's transparent.
+   2. The ItemReader, CompositeProcessor, and ItemWriter make it easy to split the work into small classes with one responsibility.
+   3. It is easy to increase the number of threads in order to increase the power of processing.
    4. And everything else described in the Spring Batch [documentation](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#springBatchUsageScenarios).
 
-I describe [Some Technical Information](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#some-technical-information) about deal with pods concurrency by the end of this file. 
+I described [Some Technical Information](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#some-technical-information) about dealing with pod concurrency at the end of this file.
 
 ### TEST Environment 
 After all implementation is time to test. I pushed up my project to TEST environment and start to send requests.   
