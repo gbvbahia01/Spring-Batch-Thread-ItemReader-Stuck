@@ -153,7 +153,7 @@ I did not want to have a new problem using this option, and I do not recommend i
 ### The Solution That I Chose
 ###### COUNTER_TO_NULL
 This was the second and last fix that I found, is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle is completed.   
-I defined ten threads, and the limit is the number of waiting processes.As a result, after processing the specified amount, all ItemReaders will return null, and the job will be completed.   
+I defined ten threads, and the limit is the number of waiting processes.    As a result, after processing the specified amount, all ItemReaders will return null, and the job will be completed.   
 What comes in after the count will be handled by the next Job execution.   
 It is important to say here that this does not mean that each thread will deal with the same amount.   
 In fact, I believe that after ItemWriter, the thread is killed and a new one is created.   
