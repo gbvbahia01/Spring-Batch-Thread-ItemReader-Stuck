@@ -140,10 +140,10 @@ The impact is easy to see in this image:
    4. The red number, or "waiting status," on the chart is a lot, and it will never stop increasing.
 
 #### The Roll Back
-When I got this problem on production, some hours after deploy, I did not realize this situation that I wrote here.
-I tried to run 3 pods at same time and that could NOT deal with this problematic scenario.
-A roll back to stop working with the new microservice was made. And I started to dig into the microservice trying to understand what was happening.
-After one week I could realize this scenario.
+When I got this problem in production, some hours after deployment, I did not realize this situation that I wrote about here.
+I tried to increase the number of pods to 3 at the same time, but that could not deal with this problematic scenario.
+A rollback to stop working with the new microservice was made. And I started to dig into the microservice, trying to understand what was happening.
+After one week of testing, I realized this scenario.
 
 #### Two Solutions
 ###### NEVER_NULL
