@@ -147,22 +147,23 @@ After one week of testing, I realized this scenario.
 
 #### Two Solutions
 ###### NEVER_NULL
-This first one did not pleasant to me. I do not know the impact of *never* end a Job. As the ItemReader will never return NULL the Job will never end.
-I did not want to have a new problem using this option, and I do not recommend.
+This first one did not make me happy. I do not know the impact of **never** ending a Job. As the ItemReader will never return NULL, the Job will never end.
+I did not want to have a new problem using this option, and I do not recommend it.
 
 ### The Solution That I Chose
 ###### COUNTER_TO_NULL
-This was the second and last that I found. Is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle completes.
-I defined 10 threads and the limit is working with the amount of waiting process. So after process the amount defined all ItemReader will return null and the Job will finish.   
-Is important to say here that this not mean that each thread will deal with the same amount.   
-In fact, I believe that after ItemWriter the thread is killed and a new one is created.   
-Is the reason you se the *Threads Pool Info* varies even with type of Job is NEVER_NULL. 
+This was the second and last fix that I found, is easy to control, as I did here in this demo application. I am satisfied because the Job life cycle is completed.   
+I defined ten threads, and the limit is the number of waiting processes.As a result, after processing the specified amount, all ItemReaders will return null, and the job will be completed.   
+What comes in after the count will be handled by the next Job execution.   
+It is important to say here that this does not mean that each thread will deal with the same amount.   
+In fact, I believe that after ItemWriter, the thread is killed and a new one is created.   
+That's the reason you see the *Threads Pool Info* varies even with the type of Job is NEVER_NULL.
 
 ### Some Technical Information
 #### How to control the ItemReader in the same application running in multiples pods
 ###### JPA
-Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event:
-something like Interface ProcessorRepository:
+Spring with JPA makes this easy. A method annotated with _@Lock(LockModeType.PESSIMISTIC_WRITE)_ can lock a row during a transaction event.
+Something like the Interface ProcessorRepository:
 ```java
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   Optional<Processor> findFirstByProcessStatusOrderById(ProcessStatus processStatus);
@@ -187,10 +188,10 @@ And a service can control the transaction, like ProcessorService
     return Optional.of(toProcess);
   }
 ```
-When _findNextToBeProcessed()_ method returns the row is changed to PROCESSING status and is not locked anymore.
+When the _findNextToBeProcessed()_ method returns, the row is changed to PROCESSING status and is not locked anymore.
 
 ###### MongoDB
-In MongoDb the same thing can be achieved by calling on the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert)  
+In MongoDb the same thing can be achieved by calling the Spring MongoTemplate method [findAndUpdate](https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.find-and-upsert).  
 Changing the status as presented in _findNextToBeProcessed()_ JPA.
 
 ### H2 Database (In memory)
