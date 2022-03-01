@@ -62,7 +62,7 @@ If you change this menu, the job will restart and ItemReader will have the selec
 See the real-time performance of _ThreadPoolTaskExecutor_ in the class _CfgProcessorJob_.
    1. Yml Threads: the number of threads defined in application.yml (app.batch.threads.amount).
    2. Max Pool Size and Pool Size are defined as fields on _ThreadPoolTaskExecutor_ instance.
-   3. Active Count: Tte number of threads working at the moment on _ThreadPoolTaskExecutor_ 
+   3. Active Count: The number of threads working at the moment on _ThreadPoolTaskExecutor_ 
 
 > Process Status
 
