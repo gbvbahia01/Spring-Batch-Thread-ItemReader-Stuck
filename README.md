@@ -66,16 +66,16 @@ See the real-time performance of _ThreadPoolTaskExecutor_ in the class _CfgProce
 
 > Process Status
 
-This chart represents the queue to process on database. 
-   1. Red is waiting to process.
-   2. Orange is executing the processing now.
-   3. Green is process finished.
+This chart represents the queue to be processed on the database.   
+   1. Red is waiting to be processed.
+   2. Orange is executing the process now.
+   3. Green means the process is finished.
 
 > Job Execution Status
 
-Is  the last Jobs execution. Status column is very important. 
-   1. Started mens that the Job is running now.
-   2. Finished means that the last Job is finished and a new one is not started yet.
+It is the last Job execution. The status column is very important. 
+   1. Started: means that the job is currently running.
+   2. Finished: this means that the last Job is finished and a new one has not started yet.
 
 > Processing Time
 
