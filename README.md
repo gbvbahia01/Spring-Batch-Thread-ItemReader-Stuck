@@ -79,13 +79,13 @@ It is the last Job execution. The status column is very important.
 
 > Processing Time
 
-On the top you see the time took to process the last item processed. Cannot take more than 120 seconds. 
+At the top, you see the time it took to process the last item processed. It can not take more than 120 seconds. 
 
 ### The Main Concern
-When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader) you have:   
+When you read the documentation provided by Spring about the [ItemReader](https://docs.spring.io/spring-batch/docs/current-SNAPSHOT/reference/html/index-single.html#item-reader), you have:   
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._      
-What this impact in the Job process?      
-In my case, because I don't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
+How does this impact the job process?   
+In my case, because I didn't take into account the impact of this snippet on the Job's lifecycle, a **roll back in production** was made.   
 
 ### My Idea To Deal With The Big Picture
    1. Create an endpoint to save the all requests coming up in a table.
