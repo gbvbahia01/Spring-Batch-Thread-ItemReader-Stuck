@@ -46,7 +46,7 @@ What you will see:
 
 I created a request process simulator in the fake package that defines the period and amount of requests received on the endpoint process request.
 This is the endpoint responsible for populating the table that Spring Batch will read.
-   1. TEST, TestAmountEnvironment.class. It sends 60 requests every 10 seconds.
+   1. TEST, TestAmountEnvironment.class. It sends 180 requests every 30 seconds.
    2. PROD, ProdAmountEnvironment.class. The amount and period are random, but if it gets the maximum amount,  which is 3, and the minimal period between requests, which is 0.5 seconds, it will be the same amount per minute as TEST.
 
 > Job Reader Mode
@@ -126,8 +126,8 @@ Keeping this in mind, to finish a job, it is necessary that all threads running 
 Here we are back to the [The Main Concern](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor#the-main-concern):
 _When the ItemReader has exhausted the items it can provide, it indicates this by returning null._
 
-As we can see in the TEST environment, we have 60 requests per 10 seconds. The batch process the 60 and starts to return null. Giving time to finish the Job.
-The problem was in the PROD environment. The request clients do not know about sending every 10 seconds; they send any time they want.   
+As we can see in the TEST environment, we have 180 requests per 30 seconds. The batch process the 180 and starts to return null. Giving time to finish the Job.
+The problem was in the PROD environment. The request clients do not know about sending every 30 seconds; they send any time they want.   
 Imagine that the clients stop sending jobs for a while, giving enough time to 9 ItemReader return null, and start sending a lot of requests again.   
 Because of that, if the Job started with a limit of 10 threads, it is now limited to 1. Spring Batch will not replace those 9 threads, and the Job has 90% less processing power.   
 What is the Root Cause of the Thread Stuck Job:

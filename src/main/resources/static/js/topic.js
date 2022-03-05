@@ -1,7 +1,9 @@
 const COLOR_YELLOW = 'rgba(255, 165, 0, 1.0)';
 const COLOR_GREEN = 'rgba(60, 179, 113, 1.0)';
-const COLOR_BLUE = 'rgba(0, 0, 255, 0.5)';
 const COLOR_RED = 'rgba(255, 99, 132, 1.0)';
+
+const COLOR_GREEN_EFFECT = 'rgba(60, 179, 113, 0.5)';
+const COLOR_BLUE_EFFECT = 'rgba(0, 0, 255, 0.5)';
 
 // ===================
 // # Websocket Connect
@@ -180,7 +182,11 @@ function updateJobStartEnd(json) {
 	 $(jq('tbody_startEnd')).prepend(toAppend);
 	 let newId = `${json.jobId}_start_end`
 	 //console.log(newId)
-	 $(jq(newId)).effect("highlight", { color: COLOR_BLUE }, 1000);			
+	 if (json.startJob) {
+	 	$(jq(newId)).effect("highlight", { color: COLOR_BLUE_EFFECT }, 1500);
+	 }	else {
+		$(jq(newId)).effect("highlight", { color: COLOR_GREEN_EFFECT }, 1500);
+	}		
 	 
 	 let toRemove = (json.jobId - 4) + '_start_end';
 	 //console.log(toRemove)

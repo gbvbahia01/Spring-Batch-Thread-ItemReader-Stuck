@@ -7,8 +7,8 @@ import lombok.Builder;
 @Builder
 public class TestAmountEnvironment extends AbsAmountAndSchedulerEnvironmentContract {
 
-	private final static Long NEXT_EXECUTION_MILLISECONDS = 10000L;
-	private final static Integer AMOUNT_TO_REQUEST = 60;
+	private final static Long NEXT_EXECUTION_MILLISECONDS = 30000L;
+	private final static Integer AMOUNT_TO_REQUEST = 180;
 
 	@Override
 	protected Environment getEnviroment() {
