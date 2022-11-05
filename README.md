@@ -42,6 +42,9 @@ Open a browser and go to: http://localhost:8080/
 Wait up to 1 minute for a Batch Job to start.   
 What you will see:
 ![TEST](https://github.com/gbvbahia01/Spring-Batch-Threads-Monitor/blob/main/src/main/resources/docs/threads_not_stuck.png)
+
+A description of each box on this screen:   
+
 > Environment Mode
 
 I created a request process simulator in the fake package that defines the period and amount of requests received on the endpoint process request.
